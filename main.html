@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 95 Desktop</title>
+    <link rel="stylesheet" href="css/w95.css"> <!-- Your main CSS -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: #008080; /* Windows 95 desktop background color */
+        }
+        .desktop {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-between; /* Ensure content fills space above taskbar */
+        }
+        .taskbar {
+            display: none;
+            height: 40px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+        .taskbar.active {
+            display: flex;
+        }
+        .navbar {
+            display: flex; /* Ensure navbar items are aligned horizontally */
+            flex-direction: row; /* Explicitly set flex-direction to row */
+            justify-content: space-between; /* Space between navbar items */
+            align-items: center; /* Vertically center items */
+            width: 100%;
+            padding: 0;
+            height: 100%; /* Ensure navbar takes up the full height of the taskbar */
+        }
+        .navbar-nav {
+            display: flex;
+            flex-direction: row;
+            list-style-type: none; /* Remove bullet points from list items */
+            padding-left: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
+        }
+        .navbar-nav .nav-item {
+            margin-right: 10px;
+        }
+        .navbar-nav .nav-link {
+            text-decoration: none; /* Remove underline from anchor tags */
+            color: inherit; /* Inherit color from parent (optional) */
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        <!-- Your desktop content here -->
+
+        <div class="taskbar" id="taskbar">
+            <!-- Navbar from your framework -->
+            <nav
+            class="navbar navbar-expand-lg navbar-dark justify-content-between mb-3">
+            <ul class="navbar-nav navbar-nav-hover flex-row align-items-center">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link" role="button">
+                        <span class="nav-link-inner-text">📺 Start</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../docs/introduction.html" class="nav-link"
+                        role="button">
+                        <span
+                            class="nav-link-inner-text">📕 Documentation</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="time text-center">
+                1:47 PM
+            </div>
+        </nav>
+        </div>
+    </div>
+
+    <script>
+        // Delay taskbar appearance
+        setTimeout(() => {
+            document.getElementById('taskbar').classList.add('active');
+        }, 1000); // Adjust the delay time as needed
+    </script>
+</body>
+</html>

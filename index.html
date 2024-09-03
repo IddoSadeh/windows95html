@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 95 Startup</title>
+    <link rel="stylesheet" href="css/w95.css">
+    <style>
+        body, html {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .scene {
+            display: none;
+            height: 100%;
+            width: 100%;
+        }
+
+        .scene.active {
+            display: block;
+        }
+
+        .flicker {
+            animation: flicker 1s infinite steps(2);
+        }
+
+        @keyframes flicker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            width: 60vw;
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        /* Media query for larger viewports */
+        @media (min-width: 1024px) {
+            .logo {
+                padding-top: 10%;
+                width: 50vw; /* Stretch the width on larger screens */
+            }
+        }
+
+        .text-container {
+            padding: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene active" id="scene1">
+        <div class="text-container">
+            <div class="loading-text">
+                Starting Windows 95... <br> <br> 
+                <span class="flicker">_</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="scene" id="scene2">
+        <div class="center-content">
+            <img src="imgs/mstile-150x150.png" alt="Windows 95 Logo" class="logo">
+        </div>
+    </div>
+
+    <div class="scene" id="scene3">
+        <div class="text-container">
+            <div class="loading-text">Loading drivers...</div>
+            <br> 
+            <span class="flicker">_</span>
+        </div>
+    </div>
+
+    <script>
+        const scenes = ['scene1', 'scene2', 'scene3'];
+        let currentScene = 0;
+
+        function showNextScene() {
+            if (currentScene < scenes.length) {
+                document.getElementById(scenes[currentScene]).classList.remove('active');
+                currentScene++;
+                if (currentScene < scenes.length) {
+                    document.getElementById(scenes[currentScene]).classList.add('active');
+
+                    // Change background for scene2
+                    if (currentScene === 1) {
+                        document.body.style.backgroundImage = "url('imgs/clouds.jpg')";
+                    } else {
+                        document.body.style.backgroundColor = 'black';
+                        document.body.style.backgroundImage = ''; // Reset background image
+                    }
+
+                    setTimeout(showNextScene, 2000); // Adjust the timing as needed
+                } else {
+                    window.location.href = 'main.html'; // Load main page after the last scene
+                }
+            }
+        }
+
+        setTimeout(showNextScene, 2000); // Start the sequence after the first delay
+    </script>
+</body>
+</html>
