@@ -1,10 +1,19 @@
 @font-face {
     font-family: 'Windows 95';
     src: url('../fonts/w-95-sans-serif.woff2') format('woff2'),
-        url('../fonts/w-95-sans-serif.woff') format('woff');
+         url('../fonts/w-95-sans-serif.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
+
+body, html {
+    font-family: 'Windows 95', sans-serif;
+    height: 100%;
+    margin: 0;
+    background-color: black;
+    color: white;
+}
+
 
 /**
  * = Backgrounds
