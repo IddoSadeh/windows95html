@@ -1,0 +1,75 @@
+@font-face {
+    font-family: 'Windows 95';
+    src: url('../fonts/w-95-sans-serif.woff2') format('woff2'),
+         url('../fonts/w-95-sans-serif.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: black;
+    color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: "Windows 95", sans-serif;
+    font-weight: 400;
+}
+
+.scene {
+    display: none;
+    height: 100%;
+    width: 100%;
+}
+
+.scene.active {
+    display: block;
+}
+
+.flicker {
+    animation: flicker 1s infinite steps(2);
+}
+
+@keyframes flicker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.logo {
+    width: 60vw;
+    height: auto;
+    padding-bottom: 5%;
+}
+
+.progressbar {
+    width: 40vw;
+    height: auto;
+}
+
+@media (min-width: 1024px) {
+    .logo {
+        width: 30vw;
+        padding-bottom: 5%;
+    }
+
+    .progressbar {
+        width: 20vw;
+    }
+}
+
+.text-container {
+    padding: 20px;
+    text-align: left;
+}
