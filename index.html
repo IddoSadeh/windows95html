@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows 95 Startup</title>
     <link rel="stylesheet" href="css/w95.css">
     <style>
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             background-color: black;
             color: white;
             background-size: cover;
+            /* Ensure background image covers the entire screen */
             background-position: center;
             background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* Keep the background image fixed during scrolling */
         }
 
         .scene {
@@ -38,23 +43,44 @@
 
         .center-content {
             display: flex;
+            flex-direction: column;
+            /* Stack items vertically */
             justify-content: center;
             align-items: center;
             height: 100%;
         }
 
         .logo {
-            width: 60vw; /* Stretch the logo based on viewport width */
-            height: auto; /* Maintain aspect ratio */
+            width: 60vw;
+            /* Stretch the logo based on viewport width */
+            height: auto;
+            /* Maintain aspect ratio */
+            padding-bottom: 5%;
         }
 
         /* Media query for larger viewports */
         @media (min-width: 1024px) {
             .logo {
-                padding-top: 10%;
-                width: 50vw; 
+                padding-bottom: 5%;
+                width: 30vw;
             }
         }
+
+        .progressbar {
+            width: 40vw;
+            /* Stretch the logo based on viewport width */
+            height: auto;
+            /* Maintain aspect ratio */
+        }
+
+        /* Media query for larger viewports */
+        @media (min-width: 1024px) {
+            .progressbar {
+
+                width: 20vw;
+            }
+        }
+
 
         .text-container {
             padding: 20px;
@@ -62,11 +88,12 @@
         }
     </style>
 </head>
+
 <body>
     <div class="scene active" id="scene1">
         <div class="text-container">
             <div class="loading-text">
-                Starting Windows 95... <br> <br> 
+                loading ... <br> <br>
                 <span class="flicker">_</span>
             </div>
         </div>
@@ -74,45 +101,69 @@
 
     <div class="scene" id="scene2">
         <div class="center-content">
-            <img src="imgs/mstile-150x150.png" alt="Windows 95 Logo" class="logo">
+            <img src="imgs/startuplogo.png" alt="Windows 95 Ori Logo" class="logo">
+            <img src="imgs/Progressbar.png" alt="Progress bar" class="progressbar">
         </div>
+
     </div>
 
     <div class="scene" id="scene3">
         <div class="text-container">
-            <div class="loading-text">Loading drivers...</div>
-            <br> 
-            <span class="flicker">_</span>
+            <div class="loading-text">Welcome to</div>
+            <br>
+            <div class="loading-text">Ori "ormitus" Mor portfolio</div>
+            <br>
+            <div class="loading-text">___</div>
+            <span class="flicker">1312</span>
         </div>
     </div>
-
     <script>
         const scenes = ['scene1', 'scene2', 'scene3'];
         let currentScene = 0;
-
+    
         function showNextScene() {
             if (currentScene < scenes.length) {
                 document.getElementById(scenes[currentScene]).classList.remove('active');
                 currentScene++;
                 if (currentScene < scenes.length) {
-                    document.getElementById(scenes[currentScene]).classList.add('active');
-
+    
                     // Change background for scene2
                     if (currentScene === 1) {
                         document.body.style.backgroundImage = "url('imgs/clouds.jpg')";
+                        showProgressBarTransition(); // Call progress bar transition for scene 2
                     } else {
                         document.body.style.backgroundColor = 'black';
                         document.body.style.backgroundImage = ''; // Reset background image
                     }
-
-                    setTimeout(showNextScene, 2000); // Adjust the timing as needed
+    
+                    document.getElementById(scenes[currentScene]).classList.add('active');
+    
+                    let sceneDuration = 3000; // Final scene should last 2 seconds
+                    if (currentScene === 1) {
+                        sceneDuration = 4500; // Scene 2 should last 3 seconds (1s for each progress bar)
+                    }
+    
+                    setTimeout(showNextScene, sceneDuration);
                 } else {
                     window.location.href = 'main.html'; // Load main page after the last scene
                 }
             }
         }
-
-        setTimeout(showNextScene, 2000); // Start the sequence after the first delay
+    
+        function showProgressBarTransition() {
+            const progressBar = document.querySelector('.progressbar');
+            setTimeout(() => {
+                progressBar.src = 'imgs/Progressbar2.png';
+            }, 1500); // Change to Progressbar2 after 1 second
+    
+            setTimeout(() => {
+                progressBar.src = 'imgs/Progressbar3.png';
+            }, 3000); // Change to Progressbar3 after 2 seconds
+        }
+    
+        setTimeout(showNextScene, 2500); // First scene lasts 2 seconds
     </script>
+    
 </body>
+
 </html>
