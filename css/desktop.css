@@ -1,3 +1,6 @@
+/* desktop.css */
+
+/* Import Windows 95 font */
 @font-face {
     font-family: 'Windows 95';
     src: url('../fonts/w-95-sans-serif.woff2') format('woff2'),
@@ -14,22 +17,29 @@
     font-family: 'Windows 95', sans-serif;
 }
 
-body, html {
+html, body {
     height: 100%;
     font-family: inherit;
 }
 
 /* Desktop Background */
 .desktop {
-    background-color: #008080;
-    min-height: calc(100% - 40px); /* Adjusted to match taskbar's min-height */
+    position: relative;
+    background-color: #008080; /* Classic Windows 95 teal background */
+    height: calc(100% - 40px); /* Subtract taskbar height */
     width: 100%;
+}
+
+@media (min-width: 768px) {
+    .desktop {
+        height: calc(100% - 50px); /* Adjust for larger taskbar on desktop */
+    }
 }
 
 /* Taskbar Styling */
 .taskbar {
     background-color: #C0C0C0;
-    min-height: 40px; /* Set a minimum height */
+    height: 40px; /* Mobile taskbar height */
     display: flex;
     align-items: center; /* Center items vertically */
     position: fixed;
@@ -39,13 +49,20 @@ body, html {
     padding: 0 10px; /* Remove top and bottom padding */
     box-sizing: border-box;
     overflow: hidden;
+    z-index: 1000;
+}
+
+@media (min-width: 768px) {
+    .taskbar {
+        height: 50px; /* Desktop taskbar height */
+    }
 }
 
 /* Left-aligned taskbar items */
 .taskbar-left {
     display: flex;
     align-items: center;
-    gap: 1vw;
+    gap: 10px; /* Fixed gap */
     flex-wrap: wrap;
     flex: 1;
     margin-right: 10px; /* Space between buttons and time */
@@ -56,17 +73,18 @@ body, html {
     position: relative;
     transition: all 0.2s ease;
     letter-spacing: 0.025em;
-    font-size: clamp(0.5rem, 1.2vw, 0.7rem); /* Adjusted font size */
-    border-radius: 0.125rem;
+    font-size: 0.75rem; /* Use rem units */
+    border-radius: 2px;
     padding: 4px 8px; /* Fixed padding */
     cursor: pointer;
     background-color: #C0C0C0;
     border: 2px solid #A0A0A0;
-    font-family: 'Windows 95', sans-serif;
     display: flex;
-    align-items: center;
+    align-items: center; /* Center content vertically */
     height: 32px; /* Set fixed height */
     flex-shrink: 1; /* Allow buttons to shrink */
+    text-decoration: none;
+    color: inherit;
 }
 
 .btn:before {
@@ -104,11 +122,23 @@ body, html {
     height: 16px;
 }
 
+@media (min-width: 768px) {
+    .btn {
+        font-size: 0.85rem;
+        height: 40px;
+    }
+
+    .btn-text img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
 /* Right-aligned time */
 .taskbar-time {
     display: flex;
     align-items: center;
-    font-size: clamp(0.5rem, 1.2vw, 0.7rem); /* Adjusted font size */
+    font-size: 0.75rem; /* Use rem units */
     border-top: 1px solid #08080E;
     border-left: 1px solid #08080E;
     border-right: 1px solid #FCFCFC;
@@ -121,91 +151,17 @@ body, html {
     height: 32px; /* Match button height */
 }
 
-/* Icon inside time box */
-.taskbar-time img {
-    width: 16px; /* Fixed icon size */
-    height: 16px;
-}
-
-/* Media Queries for Responsiveness */
-
-/* For screens smaller than 600px */
-@media (max-width: 600px) {
-    .taskbar-left {
-        gap: 0.5vw;
-        margin-right: 6px;
-    }
-
-    .btn {
-        font-size: clamp(0.45rem, 1vw, 0.65rem);
-        padding: 3px 6px;
-        height: 28px;
-    }
-
+@media (min-width: 768px) {
     .taskbar-time {
-        font-size: clamp(0.45rem, 1vw, 0.65rem);
-        padding: 3px 6px;
-        min-width: 50px;
-        height: 28px;
+        font-size: 0.85rem;
+        height: 40px;
     }
 
-    .btn-text img,
     .taskbar-time img {
-        width: 14px;
-        height: 14px;
-    }
-}
-
-/* For screens smaller than 480px */
-@media (max-width: 480px) {
-    .taskbar-left {
-        gap: 0.3vw;
-        margin-right: 4px;
-    }
-
-    .btn {
-        font-size: 0.4rem;
-        padding: 2px 4px;
-        height: 24px;
-    }
-
-    .taskbar-time {
-        font-size: 0.4rem;
-        padding: 2px 4px;
-        min-width: 40px;
-        height: 24px;
-    }
-
-    .btn-text img,
-    .taskbar-time img {
-        width: 12px;
-        height: 12px;
-    }
-}
-
-/* For screens smaller than 360px */
-@media (max-width: 360px) {
-    .btn {
-        font-size: 0.35rem;
-        padding: 1px 3px;
+        width: 20px;
         height: 20px;
     }
-
-    .taskbar-time {
-        font-size: 0.35rem;
-        padding: 1px 3px;
-        min-width: 35px;
-        height: 20px;
-    }
-
-    .btn-text img,
-    .taskbar-time img {
-        width: 10px;
-        height: 10px;
-    }
 }
-
-
 
 /* Start Menu Styling */
 .start-menu {
@@ -213,75 +169,104 @@ body, html {
     bottom: 40px; /* Adjust based on taskbar height */
     left: 0;
     width: 300px;
+    max-height: calc(100vh - 80px); /* Ensure it doesn't exceed the viewport */
     background-color: #C0C0C0;
     border: 2px solid #000;
     box-shadow: -2px -2px 0 #FFF, 2px 2px 0 #000;
     display: none;
     z-index: 1000;
+    overflow: auto; /* Add scrollbar within the start menu */
 }
 
 .start-menu.open {
     display: block;
 }
 
+@media (min-width: 768px) {
+    .start-menu {
+        bottom: 50px; /* Adjust based on desktop taskbar height */
+        max-height: calc(100vh - 100px);
+    }
+}
+
+/* Start Menu Content */
 .start-menu-header {
     padding: 10px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: center; /* Center content */
 }
 
 .headshot {
-    width: 60px;
-    height: 60px;
+    width: 80px; /* Slightly larger for visibility */
+    height: 80px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.start-menu-text {
+    width: 100%;
 }
 
 .start-menu-text h2 {
-    margin: 0 0 5px 0;
+    margin: 0 0 10px 0;
     font-size: 1.2rem;
+    text-align: center;
 }
 
 .start-menu-text p {
-    margin: 0;
+    margin: 0 0 10px 0;
     font-size: 0.9rem;
+    text-align: justify;
 }
-
 
 /* Window Styling */
 .window {
     position: absolute;
-    top: 20%;
-    left: 30%;
-    width: 400px;
+    width: 60vw; /* Changed from 80vw to 60vw */
+    max-width: 500px;
+    min-width: 280px;
     background-color: #C0C0C0;
     border: 2px solid #000;
     box-shadow: -2px -2px 0 #FFF, 2px 2px 0 #000;
-    display: none; /* Hidden by default */
+    display: none;
     z-index: 1000;
+    max-height: 80vh;
+    overflow: auto; /* Enable scrolling if content overflows */
 }
 
+@media (max-width: 767px) {
+    .window {
+        width: 80vw; /* Revert to 80vw on mobile */
+        max-width: 400px;
+    }
+}
+
+/* Window Title Bar */
 .window-titlebar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #000181;
     color: white;
-    padding: 2px 4px;
+    padding: 10px; /* Reduced padding */
     border-bottom: 2px solid #393939;
+    cursor: move; /* Indicate draggable area */
+    font-size: 1rem;
 }
 
 .window-title {
-    font-size: 0.9rem;
+    font-size: inherit;
 }
 
+/* Window Controls */
 .window-controls {
     display: flex;
 }
 
 .window-button {
-    width: 16px;
-    height: 16px;
+    width: 1.5em; /* Relative to font size */
+    height: 1.5em;
     margin-left: 2px;
     background-color: #C0C0C0;
     border: 2px solid #808080;
@@ -289,7 +274,7 @@ body, html {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 0.7rem;
+    font-size: 1em;
     color: #000;
     padding: 0;
 }
@@ -298,8 +283,9 @@ body, html {
     background-color: #FFF;
 }
 
+/* Window Content */
 .window-content {
-    padding: 10px;
+    padding: 10px; /* Reduced padding */
     border-top: 2px solid #FFF;
     border-left: 2px solid #FFF;
     border-right: 2px solid #393939;
@@ -314,8 +300,10 @@ body, html {
     background-color: #FFF;
     font-family: 'Windows 95', sans-serif;
     font-size: 0.9rem;
-    padding: 2px;
-    margin-bottom: 5px;
+    padding: 4px; /* Reduced padding */
+    margin-bottom: 8px; /* Reduced margin */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .window-content label {
@@ -338,8 +326,72 @@ body, html {
     background-color: #B0B0B0;
 }
 
-/* Adjusted styles for the 'MAIL' button to prevent default link styling */
-#mail-button {
-    text-decoration: none;
-    color: inherit;
+/* Media Queries for Responsiveness */
+
+/* Adjustments for mobile devices */
+@media (max-width: 767px) {
+    .btn {
+        font-size: 0.65rem;
+        height: 28px;
+    }
+
+    .taskbar-time {
+        font-size: 0.65rem;
+        height: 28px;
+    }
+
+    .btn-text img,
+    .taskbar-time img {
+        width: 14px;
+        height: 14px;
+    }
+
+    .window {
+        width: 80vw; /* Revert to 80vw on mobile */
+        max-width: 400px;
+        min-width: 260px;
+    }
+
+    .window-titlebar,
+    .window-content {
+        padding: 8px;
+    }
+
+    .window-titlebar {
+        font-size: 0.9rem;
+    }
+}
+
+/* Adjustments for small mobile devices */
+@media (max-width: 480px) {
+    .btn {
+        font-size: 0.6rem;
+        height: 24px;
+    }
+
+    .taskbar-time {
+        font-size: 0.6rem;
+        height: 24px;
+    }
+
+    .btn-text img,
+    .taskbar-time img {
+        width: 12px;
+        height: 12px;
+    }
+
+    .window {
+        width: 90vw;
+        max-width: 320px;
+        min-width: 240px;
+    }
+
+    .window-titlebar,
+    .window-content {
+        padding: 6px;
+    }
+
+    .window-titlebar {
+        font-size: 0.8rem;
+    }
 }

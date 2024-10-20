@@ -4,12 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Windows 95 Desktop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link rel="stylesheet" href="css/desktop.css">
 </head>
 
+
 <body>
     <!-- Desktop Area -->
-    <div class="desktop"></div>
+    <div class="desktop">
+
+            <!-- Contact Form Window -->
+    <div id="contact-window" class="window">
+        <div class="window-titlebar">
+            <span class="window-title">Contact Me</span>
+            <div class="window-controls">
+                <button class="window-button close" id="contact-close">x</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <!-- Contact Form -->
+            <form id="contact-form">
+                <div>
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name" required style="width: 100%;">
+                </div>
+                <div>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required style="width: 100%;">
+                </div>
+                <div>
+                    <label for="message">Message:</label><br>
+                    <textarea id="message" name="message" rows="5" required style="width: 100%;"></textarea>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button type="submit" class="btn">Send</button>
+                    <button type="button" class="btn" id="contact-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
 
     <!-- Taskbar -->
     <div class="taskbar">
@@ -62,36 +96,7 @@
         </div>
     </div>
 
-    <!-- Contact Form Window -->
-    <div id="contact-window" class="window">
-        <div class="window-titlebar">
-            <span class="window-title">Contact Me</span>
-            <div class="window-controls">
-                <button class="window-button close" id="contact-close">x</button>
-            </div>
-        </div>
-        <div class="window-content">
-            <!-- Contact Form -->
-            <form id="contact-form">
-                <div>
-                    <label for="name">Name:</label><br>
-                    <input type="text" id="name" name="name" required style="width: 100%;">
-                </div>
-                <div>
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email" required style="width: 100%;">
-                </div>
-                <div>
-                    <label for="message">Message:</label><br>
-                    <textarea id="message" name="message" rows="5" required style="width: 100%;"></textarea>
-                </div>
-                <div style="margin-top: 10px;">
-                    <button type="submit" class="btn">Send</button>
-                    <button type="button" class="btn" id="contact-cancel">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
+
 
     <script src="scripts/desktop.js"></script>
 </body>
