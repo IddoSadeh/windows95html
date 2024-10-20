@@ -204,3 +204,45 @@ body, html {
         height: 10px;
     }
 }
+
+
+
+/* Start Menu Styling */
+.start-menu {
+    position: absolute;
+    bottom: 40px; /* Adjust based on taskbar height */
+    left: 0;
+    width: 300px;
+    background-color: #C0C0C0;
+    border: 2px solid #000;
+    box-shadow: -2px -2px 0 #FFF, 2px 2px 0 #000;
+    display: none;
+    z-index: 1000;
+}
+
+.start-menu.open {
+    display: block;
+}
+
+.start-menu-header {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.headshot {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.start-menu-text h2 {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+}
+
+.start-menu-text p {
+    margin: 0;
+    font-size: 0.9rem;
+}

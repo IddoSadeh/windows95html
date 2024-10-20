@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows 95 Desktop</title>
     <link rel="stylesheet" href="css/desktop.css">
 </head>
-
 <body>
     <!-- Desktop Area -->
     <div class="desktop"></div>
@@ -16,7 +13,7 @@
     <div class="taskbar">
         <!-- Left-aligned taskbar items -->
         <div class="taskbar-left">
-            <button class="btn">
+            <button id="about-me-button" class="btn">
                 <span class="btn-text">
                     <img src="imgs/desktop/windows_logo.svg" alt="About Me"> ABOUT ME
                 </span>
@@ -31,11 +28,11 @@
                     <img src="imgs/desktop/explorer.svg" alt="LinkedIn"> LINKEDIN
                 </span>
             </a>
-            <button class="btn">
+            <a href="mailto:youremail@example.com" class="btn">
                 <span class="btn-text">
                     <img src="imgs/desktop/text_to_letter.svg" alt="Mail"> MAIL
                 </span>
-            </button>
+            </a>
         </div>
 
         <!-- Right-aligned time -->
@@ -45,11 +42,23 @@
         </div>
     </div>
 
+    <!-- Start Menu -->
+    <div id="start-menu" class="start-menu">
+        <div class="start-menu-header">
+            <img src="imgs/your-headshot.jpg" alt="Headshot" class="headshot">
+            <div class="start-menu-text">
+                <h2>Your Name</h2>
+                <p>Short bio about the creator of the website. You can replace this text with your own content.</p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+    </div>
 
-
-
-    <!-- JavaScript to update time -->
+    <!-- JavaScript to update time and toggle start menu -->
     <script>
+        // Time update function
         function updateTime() {
             const now = new Date();
             let hours = now.getHours();
@@ -62,11 +71,24 @@
             document.getElementById('time-display').textContent = timeString;
         }
 
-        // Update the time immediately and every minute thereafter
         updateTime();
         setInterval(updateTime, 60000);
+
+        // Toggle start menu
+        const aboutMeButton = document.getElementById('about-me-button');
+        const startMenu = document.getElementById('start-menu');
+
+        aboutMeButton.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent event from bubbling up
+            startMenu.classList.toggle('open');
+        });
+
+        // Close the start menu when clicking outside of it
+        document.addEventListener('click', function(event) {
+            if (!startMenu.contains(event.target) && !aboutMeButton.contains(event.target)) {
+                startMenu.classList.remove('open');
+            }
+        });
     </script>
-
 </body>
-
 </html>
