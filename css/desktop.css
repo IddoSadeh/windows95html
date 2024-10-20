@@ -1,0 +1,206 @@
+@font-face {
+    font-family: 'Windows 95';
+    src: url('../fonts/w-95-sans-serif.woff2') format('woff2'),
+         url('../fonts/w-95-sans-serif.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Basic resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Windows 95', sans-serif;
+}
+
+body, html {
+    height: 100%;
+    font-family: inherit;
+}
+
+/* Desktop Background */
+.desktop {
+    background-color: #008080;
+    min-height: calc(100% - 40px); /* Adjusted to match taskbar's min-height */
+    width: 100%;
+}
+
+/* Taskbar Styling */
+.taskbar {
+    background-color: #C0C0C0;
+    min-height: 40px; /* Set a minimum height */
+    display: flex;
+    align-items: center; /* Center items vertically */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 10px; /* Remove top and bottom padding */
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Left-aligned taskbar items */
+.taskbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    flex-wrap: wrap;
+    flex: 1;
+    margin-right: 10px; /* Space between buttons and time */
+}
+
+/* Buttons */
+.btn {
+    position: relative;
+    transition: all 0.2s ease;
+    letter-spacing: 0.025em;
+    font-size: clamp(0.5rem, 1.2vw, 0.7rem); /* Adjusted font size */
+    border-radius: 0.125rem;
+    padding: 4px 8px; /* Fixed padding */
+    cursor: pointer;
+    background-color: #C0C0C0;
+    border: 2px solid #A0A0A0;
+    font-family: 'Windows 95', sans-serif;
+    display: flex;
+    align-items: center;
+    height: 32px; /* Set fixed height */
+    flex-shrink: 1; /* Allow buttons to shrink */
+}
+
+.btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    border-right: 2px solid #858585;
+    border-bottom: 2px solid #858585;
+    pointer-events: none;
+}
+
+.btn:active:before {
+    border-color: transparent;
+}
+
+.btn .btn-text {
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Fixed gap */
+}
+
+.btn:active .btn-text {
+    border: 1px dotted #000;
+}
+
+/* Icon Styling */
+.btn-text img {
+    width: 16px; /* Fixed icon size */
+    height: 16px;
+}
+
+/* Right-aligned time */
+.taskbar-time {
+    display: flex;
+    align-items: center;
+    font-size: clamp(0.5rem, 1.2vw, 0.7rem); /* Adjusted font size */
+    border-top: 1px solid #08080E;
+    border-left: 1px solid #08080E;
+    border-right: 1px solid #FCFCFC;
+    border-bottom: 1px solid #FCFCFC;
+    padding: 4px 8px; /* Fixed padding */
+    gap: 4px;
+    text-transform: uppercase;
+    flex-shrink: 1; /* Allow time box to shrink */
+    min-width: 60px;
+    height: 32px; /* Match button height */
+}
+
+/* Icon inside time box */
+.taskbar-time img {
+    width: 16px; /* Fixed icon size */
+    height: 16px;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For screens smaller than 600px */
+@media (max-width: 600px) {
+    .taskbar-left {
+        gap: 0.5vw;
+        margin-right: 6px;
+    }
+
+    .btn {
+        font-size: clamp(0.45rem, 1vw, 0.65rem);
+        padding: 3px 6px;
+        height: 28px;
+    }
+
+    .taskbar-time {
+        font-size: clamp(0.45rem, 1vw, 0.65rem);
+        padding: 3px 6px;
+        min-width: 50px;
+        height: 28px;
+    }
+
+    .btn-text img,
+    .taskbar-time img {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* For screens smaller than 480px */
+@media (max-width: 480px) {
+    .taskbar-left {
+        gap: 0.3vw;
+        margin-right: 4px;
+    }
+
+    .btn {
+        font-size: 0.4rem;
+        padding: 2px 4px;
+        height: 24px;
+    }
+
+    .taskbar-time {
+        font-size: 0.4rem;
+        padding: 2px 4px;
+        min-width: 40px;
+        height: 24px;
+    }
+
+    .btn-text img,
+    .taskbar-time img {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+/* For screens smaller than 360px */
+@media (max-width: 360px) {
+    .btn {
+        font-size: 0.35rem;
+        padding: 1px 3px;
+        height: 20px;
+    }
+
+    .taskbar-time {
+        font-size: 0.35rem;
+        padding: 1px 3px;
+        min-width: 35px;
+        height: 20px;
+    }
+
+    .btn-text img,
+    .taskbar-time img {
+        width: 10px;
+        height: 10px;
+    }
+}

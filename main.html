@@ -4,88 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows 95 Desktop</title>
-    <link rel="stylesheet" href="css/w95.css"> <!-- Your main CSS -->
+    <link rel="stylesheet" href="css/w95.css">
     <style>
         body, html {
             height: 100%;
             margin: 0;
-            background-color: #008080; /* Windows 95 desktop background color */
-        }
-        .desktop {
+            font-family: 'Windows 95', sans-serif;
+            background-color: #008080;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            justify-content: space-between; /* Ensure content fills space above taskbar */
+            justify-content: space-between;
         }
+
+        /* Taskbar */
         .taskbar {
-            display: none;
-            height: 40px;
-            width: 100%;
-            position: absolute;
+            background-color: #c0c0c0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            position: fixed;
             bottom: 0;
-        }
-        .taskbar.active {
-            display: flex;
-        }
-        .navbar {
-            display: flex; /* Ensure navbar items are aligned horizontally */
-            flex-direction: row; /* Explicitly set flex-direction to row */
-            justify-content: space-between; /* Space between navbar items */
-            align-items: center; /* Vertically center items */
             width: 100%;
-            padding: 0;
-            height: 100%; /* Ensure navbar takes up the full height of the taskbar */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
         }
-        .navbar-nav {
+
+        /* Taskbar buttons */
+        .taskbar .navbar-nav {
             display: flex;
-            flex-direction: row;
-            list-style-type: none; /* Remove bullet points from list items */
-            padding-left: 0; /* Remove default padding */
-            margin: 0; /* Remove default margin */
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
-        .navbar-nav .nav-item {
+
+        .taskbar .nav-item {
             margin-right: 10px;
         }
-        .navbar-nav .nav-link {
-            text-decoration: none; /* Remove underline from anchor tags */
-            color: inherit; /* Inherit color from parent (optional) */
+
+        .taskbar .btn {
+            background-color: #e0e0e0;
+            border: 2px solid #808080;
+            padding: 5px 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
         }
+
+        .btn-text {
+            font-size: 14px;
+            color: black;
+        }
+
+        /* Popup styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 30%;
+            width: 40%;
+            background-color: white;
+            border: 2px solid #808080;
+            z-index: 10;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .popup-content {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        /* Time styling */
+        .time {
+            font-size: 14px;
+            color: black;
+        }
+
     </style>
 </head>
 <body>
-    <div class="desktop">
-        <!-- Your desktop content here -->
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <div class="d-flex align-items-center">
+                    <button id="about-me-tab" class="btn">
+                        <span class="btn-text">📺 Start</span>
+                    </button>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="d-flex align-items-center">
+                    <a href="https://www.instagram.com" class="btn">
+                        <span class="btn-text">📕 Documentation</span>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="d-flex align-items-center">
+                    <button id="contact-form-tab" class="btn">
+                        <span class="btn-text">📧 Mail</span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+        <div class="time text-center" id="clock">1:47 PM</div>
+    </div>
 
-        <div class="taskbar" id="taskbar">
-            <!-- Navbar from your framework -->
-            <nav
-            class="navbar navbar-expand-lg navbar-dark justify-content-between mb-3">
-            <ul class="navbar-nav navbar-nav-hover flex-row align-items-center">
-                <li class="nav-item">
-                    <a href="../index.html" class="nav-link" role="button">
-                        <span class="nav-link-inner-text">📺 Start</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../docs/introduction.html" class="nav-link"
-                        role="button">
-                        <span
-                            class="nav-link-inner-text">📕 Documentation</span>
-                    </a>
-                </li>
-            </ul>
-            <div class="time text-center">
-                1:47 PM
-            </div>
-        </nav>
+    <!-- About Me Popup -->
+    <div class="popup" id="about-me-popup">
+        <div class="popup-content">
+            <h1>About Me</h1>
+            <p>This is a Windows 95 styled popup.</p>
+            <button id="close-about-me" class="btn">
+                <span class="btn-text">OK</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contact Form Popup -->
+    <div class="popup" id="contact-form-popup">
+        <div class="popup-content">
+            <h1>Contact Form</h1>
+            <form>
+                <div class="form-group">
+                    <label for="default">Default:</label>
+                    <input id="default" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="textarea">Textarea:</label>
+                    <textarea id="textarea" class="form-control" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn">
+                    <span class="btn-text">Submit</span>
+                </button>
+                <button type="button" id="close-contact-form" class="btn">
+                    <span class="btn-text">Cancel</span>
+                </button>
+            </form>
         </div>
     </div>
 
     <script>
-        // Delay taskbar appearance
-        setTimeout(() => {
-            document.getElementById('taskbar').classList.add('active');
-        }, 1000); // Adjust the delay time as needed
+        // Open and close About Me popup
+        document.getElementById('about-me-tab').addEventListener('click', () => {
+            document.getElementById('about-me-popup').style.display = 'block';
+        });
+
+        document.getElementById('close-about-me').addEventListener('click', () => {
+            document.getElementById('about-me-popup').style.display = 'none';
+        });
+
+        // Open and close Contact Form popup
+        document.getElementById('contact-form-tab').addEventListener('click', () => {
+            document.getElementById('contact-form-popup').style.display = 'block';
+        });
+
+        document.getElementById('close-contact-form').addEventListener('click', () => {
+            document.getElementById('contact-form-popup').style.display = 'none';
+        });
+
+        // Live time in the taskbar
+        function updateClock() {
+            const clockElement = document.getElementById('clock');
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            clockElement.textContent = hours + ':' + minutes + ' ' + ampm;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>

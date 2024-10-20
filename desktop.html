@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 95 Desktop</title>
+    <link rel="stylesheet" href="css/desktop.css">
+</head>
+
+<body>
+    <!-- Desktop Area -->
+    <div class="desktop"></div>
+
+    <!-- Taskbar -->
+    <div class="taskbar">
+        <!-- Left-aligned taskbar items -->
+        <div class="taskbar-left">
+            <button class="btn">
+                <span class="btn-text">
+                    <img src="imgs/desktop/windows_logo.svg" alt="About Me"> ABOUT ME
+                </span>
+            </button>
+            <a href="https://www.instagram.com/yourusername" target="_blank" class="btn">
+                <span class="btn-text">
+                    <img src="imgs/desktop/painting.svg" alt="Instagram"> INSTAGRAM
+                </span>
+            </a>
+            <a href="https://www.linkedin.com/in/yourusername" target="_blank" class="btn">
+                <span class="btn-text">
+                    <img src="imgs/desktop/explorer.svg" alt="LinkedIn"> LINKEDIN
+                </span>
+            </a>
+            <button class="btn">
+                <span class="btn-text">
+                    <img src="imgs/desktop/text_to_letter.svg" alt="Mail"> MAIL
+                </span>
+            </button>
+        </div>
+
+        <!-- Right-aligned time -->
+        <div class="taskbar-time">
+            <img src="imgs/desktop/volume.svg" alt="Volume Icon">
+            <span id="time-display"></span>
+        </div>
+    </div>
+
+
+
+
+    <!-- JavaScript to update time -->
+    <script>
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const isPM = hours >= 12;
+            hours = hours % 12 || 12; // Convert to 12-hour format
+            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const ampm = isPM ? 'PM' : 'AM';
+            const timeString = `${hours}:${displayMinutes} ${ampm}`;
+            document.getElementById('time-display').textContent = timeString;
+        }
+
+        // Update the time immediately and every minute thereafter
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
+
+</body>
+
+</html>
