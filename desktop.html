@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Windows 95 Desktop</title>
     <link rel="stylesheet" href="css/desktop.css">
 </head>
+
 <body>
     <!-- Desktop Area -->
     <div class="desktop"></div>
@@ -28,11 +30,11 @@
                     <img src="imgs/desktop/explorer.svg" alt="LinkedIn"> LINKEDIN
                 </span>
             </a>
-            <a href="mailto:youremail@example.com" class="btn">
+            <button id="mail-button" class="btn">
                 <span class="btn-text">
                     <img src="imgs/desktop/text_to_letter.svg" alt="Mail"> MAIL
                 </span>
-            </a>
+            </button>
         </div>
 
         <!-- Right-aligned time -->
@@ -50,45 +52,48 @@
                 <h2>Your Name</h2>
                 <p>Short bio about the creator of the website. You can replace this text with your own content.</p>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript to update time and toggle start menu -->
-    <script>
-        // Time update function
-        function updateTime() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = now.getMinutes();
-            const isPM = hours >= 12;
-            hours = hours % 12 || 12; // Convert to 12-hour format
-            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-            const ampm = isPM ? 'PM' : 'AM';
-            const timeString = `${hours}:${displayMinutes} ${ampm}`;
-            document.getElementById('time-display').textContent = timeString;
-        }
+    <!-- Contact Form Window -->
+    <div id="contact-window" class="window">
+        <div class="window-titlebar">
+            <span class="window-title">Contact Me</span>
+            <div class="window-controls">
+                <button class="window-button close" id="contact-close">x</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <!-- Contact Form -->
+            <form id="contact-form">
+                <div>
+                    <label for="name">Name:</label><br>
+                    <input type="text" id="name" name="name" required style="width: 100%;">
+                </div>
+                <div>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required style="width: 100%;">
+                </div>
+                <div>
+                    <label for="message">Message:</label><br>
+                    <textarea id="message" name="message" rows="5" required style="width: 100%;"></textarea>
+                </div>
+                <div style="margin-top: 10px;">
+                    <button type="submit" class="btn">Send</button>
+                    <button type="button" class="btn" id="contact-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        updateTime();
-        setInterval(updateTime, 60000);
-
-        // Toggle start menu
-        const aboutMeButton = document.getElementById('about-me-button');
-        const startMenu = document.getElementById('start-menu');
-
-        aboutMeButton.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevent event from bubbling up
-            startMenu.classList.toggle('open');
-        });
-
-        // Close the start menu when clicking outside of it
-        document.addEventListener('click', function(event) {
-            if (!startMenu.contains(event.target) && !aboutMeButton.contains(event.target)) {
-                startMenu.classList.remove('open');
-            }
-        });
-    </script>
+    <script src="scripts/desktop.js"></script>
 </body>
+
 </html>

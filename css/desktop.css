@@ -246,3 +246,100 @@ body, html {
     margin: 0;
     font-size: 0.9rem;
 }
+
+
+/* Window Styling */
+.window {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 400px;
+    background-color: #C0C0C0;
+    border: 2px solid #000;
+    box-shadow: -2px -2px 0 #FFF, 2px 2px 0 #000;
+    display: none; /* Hidden by default */
+    z-index: 1000;
+}
+
+.window-titlebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000181;
+    color: white;
+    padding: 2px 4px;
+    border-bottom: 2px solid #393939;
+}
+
+.window-title {
+    font-size: 0.9rem;
+}
+
+.window-controls {
+    display: flex;
+}
+
+.window-button {
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+    background-color: #C0C0C0;
+    border: 2px solid #808080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.7rem;
+    color: #000;
+    padding: 0;
+}
+
+.window-button:hover {
+    background-color: #FFF;
+}
+
+.window-content {
+    padding: 10px;
+    border-top: 2px solid #FFF;
+    border-left: 2px solid #FFF;
+    border-right: 2px solid #393939;
+    border-bottom: 2px solid #393939;
+}
+
+/* Form Elements Styling */
+.window-content input[type="text"],
+.window-content input[type="email"],
+.window-content textarea {
+    border: 2px solid #BDBDBD;
+    background-color: #FFF;
+    font-family: 'Windows 95', sans-serif;
+    font-size: 0.9rem;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+
+.window-content label {
+    font-size: 0.9rem;
+}
+
+.window-content .btn {
+    margin-right: 5px;
+    padding: 4px 8px;
+    background-color: #C0C0C0;
+    border: 2px solid #808080;
+    cursor: pointer;
+}
+
+.window-content .btn:active {
+    border: 2px inset #000;
+}
+
+.window-content .btn:hover {
+    background-color: #B0B0B0;
+}
+
+/* Adjusted styles for the 'MAIL' button to prevent default link styling */
+#mail-button {
+    text-decoration: none;
+    color: inherit;
+}
