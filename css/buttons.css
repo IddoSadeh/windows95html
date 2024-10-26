@@ -1,0 +1,72 @@
+.btn {
+    position: relative;
+    transition: all .2s ease;
+    font-size: .75rem;
+    border-radius: 2px;
+    padding: 4px 8px;
+    cursor: pointer;
+    background-color: #C0C0C0;
+    border: 2px solid #A0A0A0;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    min-width: 0;
+    flex-shrink: 1;
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid;
+    border-color: white white #858585 #858585;
+    pointer-events: none;
+}
+
+.btn:active:before {
+    border-color: transparent;
+}
+
+.btn .btn-text {
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn:active .btn-text {
+    border: 1px dotted #000;
+}
+
+.btn-text img {
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 767px) {
+    .btn {
+        font-size: .6rem;
+        padding: 2px 4px;
+        height: 28px;
+    }
+    
+    .btn-text img {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        font-size: .5rem;
+        padding: 1px 3px;
+        height: 24px;
+    }
+    
+    .btn-text img {
+        width: 12px;
+        height: 12px;
+    }
+}
