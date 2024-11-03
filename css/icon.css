@@ -1,0 +1,97 @@
+.desktop-icon {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75px;
+    padding: 8px;
+    margin: 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    text-decoration: none;
+}
+
+.desktop-icon:hover {
+    background-color: rgba(0, 0, 139, 0.1);
+}
+
+.desktop-icon:focus {
+    outline: none;
+}
+
+/* Selected state */
+.desktop-icon.selected,
+.desktop-icon:focus {
+    background-color: rgba(0, 0, 139, 0.3);
+    border: 1px dotted #fff;
+}
+
+/* Active (clicking) state */
+.desktop-icon:active {
+    background-color: rgba(0, 0, 139, 0.5);
+}
+
+.desktop-icon img,
+.desktop-icon svg {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+}
+
+.desktop-icon-label {
+    color: #fff;
+    font-size: 0.75rem;
+    text-align: center;
+    text-shadow: 
+        1px 1px 0 #000,
+        -1px 1px 0 #000,
+        1px -1px 0 #000,
+        -1px -1px 0 #000;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+/* For icons that are being dragged */
+.desktop-icon.dragging {
+    opacity: 0.7;
+    position: fixed;
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .desktop-icon {
+        width: 60px;
+        padding: 6px;
+        margin: 6px;
+    }
+
+    .desktop-icon img,
+    .desktop-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .desktop-icon-label {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .desktop-icon {
+        width: 50px;
+        padding: 4px;
+        margin: 4px;
+    }
+
+    .desktop-icon img,
+    .desktop-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .desktop-icon-label {
+        font-size: 0.65rem;
+    }
+}

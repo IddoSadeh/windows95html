@@ -1,108 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Windows 95 Desktop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <link rel="stylesheet" href="css/desktop.css">
-    <link rel="stylesheet" href="css/buttons.css">
-    <link rel="stylesheet" href="css/taskbar.css">
-    <link rel="stylesheet" href="css/startmenu.css">
-    <link rel="stylesheet" href="css/window.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Windows 95 Style</title>
+    <link rel="stylesheet" href="CSS/desktop.css">
+    <link rel="stylesheet" href="CSS/buttons.css">
+    <link rel="stylesheet" href="CSS/window.css">
+    <link rel="stylesheet" href="CSS/taskbar.css">
+    <link rel="stylesheet" href="CSS/startmenu.css">
+    <link rel="stylesheet" href="CSS/icon.css">
 </head>
-
-
 <body>
-    <!-- Desktop Area -->
-    <div class="desktop">
-
-            <!-- Contact Form Window -->
-    <div id="contact-window" class="window">
-        <div class="window-titlebar">
-            <span class="window-title">Contact Me</span>
-            <div class="window-controls">
-                <button class="window-button close" id="contact-close">x</button>
-            </div>
-        </div>
-        <div class="window-content">
-            <!-- Contact Form -->
-            <form id="contact-form">
-                <div>
-                    <label for="name">Name:</label><br>
-                    <input type="text" id="name" name="name" required style="width: 100%;">
+    <main class="desktop" id="desktop">
+        <button class="desktop-icon"> 
+            <span class="btn-text">
+                <img src="imgs/desktop/desktop_icon.svg" alt="Posters"> ABOUT
+            </span>
+        </button>
+        <button class="desktop-icon"> 
+            <span class="btn-text">
+                <img src="imgs/desktop/desktop_icon.svg" alt="Cannalog"> ABOUT
+            </span>
+        </button>
+        <button class="desktop-icon"> 
+            <span class="btn-text">
+                <img src="imgs/desktop/desktop_icon.svg" alt="Sting"> ABOUT
+            </span>
+        </button>
+        <button class="desktop-icon"> 
+            <span class="btn-text">
+                <img src="imgs/desktop/desktop_icon.svg" alt="Tetrisography"> ABOUT
+            </span>
+        </button>
+        <button class="desktop-icon"> 
+            <span class="btn-text">
+                <img src="imgs/desktop/desktop_icon.svg" alt="Fonts"> ABOUT
+            </span>
+        </button>
+        <!-- Contact Window -->
+        <section id="contact-window" class="window">
+            <header class="window-titlebar">
+                <h2 class="window-title">Contact Me</h2>
+                <div class="window-controls">
+                    <button id="contact-close" class="window-button" aria-label="Close">✕</button>
                 </div>
-                <div>
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email" required style="width: 100%;">
+            </header>
+            
+            <form class="window-content">
+                <div class="form-group">
+                    <label for="contact-name">Name:</label>
+                    <input type="text" id="contact-name" required>
                 </div>
-                <div>
-                    <label for="message">Message:</label><br>
-                    <textarea id="message" name="message" rows="5" required style="width: 100%;"></textarea>
+                
+                <div class="form-group">
+                    <label for="contact-email">Email:</label>
+                    <input type="email" id="contact-email" required>
                 </div>
-                <div style="margin-top: 10px;">
+                
+                <div class="form-group">
+                    <label for="contact-message">Message:</label>
+                    <textarea id="contact-message" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-actions">
                     <button type="submit" class="btn">Send</button>
-                    <button type="button" class="btn" id="contact-cancel">Cancel</button>
+                    <button type="button" id="contact-cancel" class="btn">Cancel</button>
                 </div>
             </form>
-        </div>
-    </div>
-    </div>
+        </section>
+    </main>
+
+    <!-- Start Menu -->
+    <aside id="start-menu" class="start-menu">
+        <header class="start-menu-header">
+            <img src="imgs/your-headshot.jpg" alt="Profile Picture" class="headshot">
+            <div class="start-menu-text">
+                <h2>Your Name</h2>
+                <p>Short bio about the creator of the website. You can replace this text with your own content.</p>
+            </div>
+        </header>
+    </aside>
 
     <!-- Taskbar -->
-    <div class="taskbar">
-        <!-- Left-aligned taskbar items -->
-        <div class="taskbar-left">
+    <footer class="taskbar">
+        <nav class="taskbar-left">
             <button id="about-me-button" class="btn">
                 <span class="btn-text">
                     <img src="imgs/desktop/windows_logo.svg" alt="About Me"> ABOUT
                 </span>
             </button>
-            <a href="https://www.instagram.com/yourusername" target="_blank" class="btn">
+            
+            <a href="https://www.instagram.com/yourusername" class="btn" target="_blank" rel="noopener">
                 <span class="btn-text">
                     <img src="imgs/desktop/painting.svg" alt="Instagram"> INSTAGRAM
                 </span>
             </a>
-            <a href="https://www.linkedin.com/in/yourusername" target="_blank" class="btn">
+            
+            <a href="https://www.linkedin.com/in/yourusername" class="btn" target="_blank" rel="noopener">
                 <span class="btn-text">
                     <img src="imgs/desktop/explorer.svg" alt="LinkedIn"> LINKEDIN
                 </span>
             </a>
+            
             <button id="mail-button" class="btn">
                 <span class="btn-text">
                     <img src="imgs/desktop/text_to_letter.svg" alt="Mail"> MAIL
                 </span>
             </button>
-        </div>
-
-        <!-- Right-aligned time -->
+        </nav>
+        
         <div class="taskbar-time">
             <img src="imgs/desktop/volume.svg" alt="Volume Icon">
             <span id="time-display"></span>
         </div>
-    </div>
-
-    <!-- Start Menu -->
-    <div id="start-menu" class="start-menu">
-        <div class="start-menu-header">
-            <img src="imgs/your-headshot.jpg" alt="Headshot" class="headshot">
-            <div class="start-menu-text">
-                <h2>Your Name</h2>
-                <p>Short bio about the creator of the website. You can replace this text with your own content.</p>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-        </div>
-    </div>
-
-
+    </footer>
 
     <script src="scripts/desktop.js"></script>
 </body>
-
 </html>

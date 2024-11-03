@@ -1,15 +1,13 @@
 .start-menu {
-    position: absolute;
-    bottom: 36px;
+    position: fixed; /* Changed from absolute to fixed */
+    bottom: 50px; /* Align with taskbar height */
     left: 0;
-    z-index: 1000;
+    z-index: 999; /* Just below windows */
     width: 300px;
-    max-height: calc(100vh - 76px);
-    display: none;
-    overflow: auto;
     background-color: #C0C0C0;
     border: 2px solid #000;
     box-shadow: -2px -2px 0 #FFF, 2px 2px 0 #000;
+    display: none;
 }
 
 .start-menu.open {
@@ -20,45 +18,84 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    padding: 16px;
 }
 
 .headshot {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
+    border: 2px solid #000;
 }
 
 .start-menu-text {
     width: 100%;
 }
 
-.start-menu-text h2, 
-.start-menu-text p {
-    margin: 0 0 10px;
-    text-align: center;
-}
-
 .start-menu-text h2 {
+    margin: 0 0 12px;
+    text-align: center;
     font-size: 1.2rem;
+    color: #000;
 }
 
 .start-menu-text p {
-    font-size: .9rem;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
     text-align: justify;
+    color: #000;
 }
 
-@media (min-width: 481px) {
+/* Media Queries */
+@media (max-width: 767px) {
     .start-menu {
         bottom: 40px;
-        max-height: calc(100vh - 80px);
+        width: 260px;
+    }
+    
+    .start-menu-header {
+        padding: 12px;
+    }
+    
+    .headshot {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 12px;
+    }
+    
+    .start-menu-text h2 {
+        font-size: 1rem;
+    }
+    
+    .start-menu-text p {
+        font-size: 0.8rem;
     }
 }
 
-@media (min-width: 768px) {
+@media (max-width: 480px) {
     .start-menu {
-        bottom: 50px;
-        max-height: calc(100vh - 100px);
+        bottom: 36px;
+        width: 220px;
+    }
+    
+    .start-menu-header {
+        padding: 8px;
+    }
+    
+    .headshot {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 8px;
+    }
+    
+    .start-menu-text h2 {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    .start-menu-text p {
+        font-size: 0.75rem;
     }
 }

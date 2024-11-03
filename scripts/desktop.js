@@ -1,138 +1,142 @@
-/* scripts/desktop.js */
-
-// Time update function
-function updateTime() {
-    const now = new Date();
-    let hours = now.getHours();
-    const minutes = now.getMinutes();
-    const isPM = hours >= 12;
-    hours = hours % 12 || 12; // Convert to 12-hour format
-    const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
-    const ampm = isPM ? 'PM' : 'AM';
-    const timeString = `${hours}:${displayMinutes} ${ampm}`;
-    document.getElementById('time-display').textContent = timeString;
-}
-
-updateTime();
-setInterval(updateTime, 60000);
-
-// Toggle start menu
+// Cache DOM elements
+const timeDisplay = document.getElementById('time-display');
 const aboutMeButton = document.getElementById('about-me-button');
 const startMenu = document.getElementById('start-menu');
-
-aboutMeButton.addEventListener('click', function(event) {
-    event.stopPropagation(); // Prevent event from bubbling up
-    startMenu.classList.toggle('open');
-});
-
-// Close the start menu when clicking outside of it
-document.addEventListener('click', function(event) {
-    if (!startMenu.contains(event.target) && !aboutMeButton.contains(event.target)) {
-        startMenu.classList.remove('open');
-    }
-});
-
-// Handle 'MAIL' button click to open the contact window
 const mailButton = document.getElementById('mail-button');
 const contactWindow = document.getElementById('contact-window');
 const contactClose = document.getElementById('contact-close');
 const contactCancel = document.getElementById('contact-cancel');
 const desktop = document.querySelector('.desktop');
 
-mailButton.addEventListener('click', function(event) {
-    contactWindow.style.display = 'block';
+// Time display functionality
+function updateTime() {
+    const now = new Date();
+    const hours = now.getHours() % 12 || 12; // Convert to 12-hour format
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+    timeDisplay.textContent = `${hours}:${minutes} ${ampm}`;
+}
 
+// Initialize clock
+updateTime();
+setInterval(updateTime, 60000); // Update every minute
+
+// Start menu functionality
+aboutMeButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    startMenu.classList.toggle('open');
+});
+
+// Close start menu when clicking outside
+document.addEventListener('click', function(event) {
+    if (!startMenu.contains(event.target) && !aboutMeButton.contains(event.target)) {
+        startMenu.classList.remove('open');
+    }
+});
+
+// Contact window functionality
+function handleContactWindow() {
     // Center the window
     const desktopRect = desktop.getBoundingClientRect();
     const windowRect = contactWindow.getBoundingClientRect();
-
+    
     const x = (desktopRect.width - windowRect.width) / 2;
     const y = (desktopRect.height - windowRect.height) / 2;
-
+    
     contactWindow.style.left = x + 'px';
     contactWindow.style.top = y + 'px';
+}
 
+mailButton.addEventListener('click', function(event) {
+    contactWindow.style.display = 'block';
+    handleContactWindow();
     event.stopPropagation();
 });
 
-// Close the contact window when the close or cancel button is clicked
-contactClose.addEventListener('click', function() {
+// Close contact window handlers
+function closeContactWindow() {
     contactWindow.style.display = 'none';
-});
-
-if (contactCancel) {
-    contactCancel.addEventListener('click', function() {
-        contactWindow.style.display = 'none';
-    });
 }
 
-// Prevent clicks inside the contact window from closing it
+contactClose.addEventListener('click', closeContactWindow);
+contactCancel?.addEventListener('click', closeContactWindow);
+
+// Prevent clicks inside contact window from closing it
 contactWindow.addEventListener('click', function(event) {
     event.stopPropagation();
 });
 
-// Close the contact window when clicking outside of it
+// Close contact window when clicking outside
 document.addEventListener('click', function(event) {
     if (!contactWindow.contains(event.target) && !mailButton.contains(event.target)) {
         contactWindow.style.display = 'none';
     }
 });
 
-// Draggable Window Functionality
+// Draggable window functionality
 function makeDraggable(element, handle) {
     let isDragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let initialX = 0;
+    let initialY = 0;
 
-    handle.addEventListener('mousedown', function(e) {
-        isDragging = true;
-
+    function startDragging(e) {
         // Get the computed style for left and top
         const styles = window.getComputedStyle(element);
-        const left = parseInt(styles.left) || 0;
-        const top = parseInt(styles.top) || 0;
+        currentX = parseInt(styles.left) || 0;
+        currentY = parseInt(styles.top) || 0;
 
-        offsetX = e.clientX - left;
-        offsetY = e.clientY - top;
+        // Get initial mouse/touch position
+        initialX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        initialY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
 
-        document.body.style.userSelect = 'none'; // Prevent text selection
-    });
+        isDragging = true;
+        document.body.style.userSelect = 'none';
+    }
 
-    document.addEventListener('mouseup', function() {
+    function stopDragging() {
         isDragging = false;
-        document.body.style.userSelect = ''; // Re-enable text selection
-    });
+        document.body.style.userSelect = '';
+    }
 
-    document.addEventListener('mousemove', function(e) {
-        if (isDragging) {
-            // Calculate the new position
-            let x = e.clientX - offsetX;
-            let y = e.clientY - offsetY;
+    function drag(e) {
+        if (!isDragging) return;
 
-            // Constrain the window within the desktop area
-            const desktopRect = desktop.getBoundingClientRect();
-            const windowRect = element.getBoundingClientRect();
+        e.preventDefault();
+        
+        // Get current mouse/touch position
+        const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
 
-            // Left boundary
-            if (x < 0) x = 0;
-            // Right boundary
-            if (x + windowRect.width > desktopRect.width) {
-                x = desktopRect.width - windowRect.width;
-            }
-            // Top boundary
-            if (y < 0) y = 0;
-            // Bottom boundary
-            if (y + windowRect.height > desktopRect.height) {
-                y = desktopRect.height - windowRect.height;
-            }
+        // Calculate the new position
+        let newX = currentX + (clientX - initialX);
+        let newY = currentY + (clientY - initialY);
 
-            // Apply the new position
-            element.style.left = x + 'px';
-            element.style.top = y + 'px';
-        }
-    });
+        // Get boundaries
+        const desktopRect = desktop.getBoundingClientRect();
+        const windowRect = element.getBoundingClientRect();
+
+        // Constrain to desktop boundaries
+        newX = Math.max(0, Math.min(newX, desktopRect.width - windowRect.width));
+        newY = Math.max(0, Math.min(newY, desktopRect.height - windowRect.height));
+
+        // Apply the new position
+        element.style.left = newX + 'px';
+        element.style.top = newY + 'px';
+    }
+
+    // Mouse events
+    handle.addEventListener('mousedown', startDragging);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', stopDragging);
+
+    // Touch events
+    handle.addEventListener('touchstart', startDragging);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('touchend', stopDragging);
 }
 
-// Make the contact window draggable
+// Initialize draggable contact window
 const contactTitleBar = contactWindow.querySelector('.window-titlebar');
 makeDraggable(contactWindow, contactTitleBar);
