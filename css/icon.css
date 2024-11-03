@@ -5,11 +5,13 @@
     align-items: center;
     width: 75px;
     padding: 8px;
-    margin: 8px;
+    margin-left: 6px;
     cursor: pointer;
     border: 1px solid transparent;
     background: transparent;
     text-decoration: none;
+    transition: background-color 0.1s ease;
+    user-select: none;
 }
 
 .desktop-icon:hover {
@@ -20,16 +22,39 @@
     outline: none;
 }
 
-/* Selected state */
+
 .desktop-icon.selected,
 .desktop-icon:focus {
     background-color: rgba(0, 0, 139, 0.3);
     border: 1px dotted #fff;
 }
 
-/* Active (clicking) state */
+
 .desktop-icon:active {
     background-color: rgba(0, 0, 139, 0.5);
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+}
+
+.desktop-icon.clicking {
+    animation: iconClick 0.2s ease;
+}
+
+@keyframes iconClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.desktop-icon.double-clicking {
+    animation: iconDoubleClick 0.3s ease;
+}
+
+@keyframes iconDoubleClick {
+    0% { transform: scale(1); }
+    30% { transform: scale(0.9); }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 .desktop-icon img,
@@ -37,6 +62,7 @@
     width: 32px;
     height: 32px;
     margin-bottom: 4px;
+    pointer-events: none;
 }
 
 .desktop-icon-label {
@@ -50,21 +76,22 @@
         -1px -1px 0 #000;
     word-break: break-word;
     max-width: 100%;
+    pointer-events: none; 
 }
 
-/* For icons that are being dragged */
+
 .desktop-icon.dragging {
     opacity: 0.7;
     position: fixed;
     pointer-events: none;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .desktop-icon {
         width: 60px;
         padding: 6px;
-        margin: 6px;
+        margin-left: 6px;
     }
 
     .desktop-icon img,
@@ -82,7 +109,7 @@
     .desktop-icon {
         width: 50px;
         padding: 4px;
-        margin: 4px;
+        margin-left: 6px;
     }
 
     .desktop-icon img,
