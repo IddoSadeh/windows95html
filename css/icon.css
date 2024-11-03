@@ -5,7 +5,7 @@
     align-items: center;
     width: 75px;
     padding: 8px;
-    margin-left: 6px;
+    margin-left: 20px;
     cursor: pointer;
     border: 1px solid transparent;
     background: transparent;
@@ -91,7 +91,7 @@
     .desktop-icon {
         width: 60px;
         padding: 6px;
-        margin-left: 6px;
+        margin-left: 30px;
     }
 
     .desktop-icon img,
@@ -109,7 +109,7 @@
     .desktop-icon {
         width: 50px;
         padding: 4px;
-        margin-left: 6px;
+        margin-left: 30px;
     }
 
     .desktop-icon img,
