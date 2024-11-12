@@ -40,9 +40,9 @@ const windowsConfig = [
         content: [
             { 
                 type: 'text', 
-                title: 'Font Information', // Title for font information window
-                content: 'This is information about the fonts used in the project.', 
-                position: { desktop: { x: '30%', y: '15%' }, mobile: { x: '5%', y: '5%' } }
+                title: 'Fonts', 
+                content: 'Coming Soon', 
+                style: { width: '50vw', height: '50vh' }
             }
         ]
     },
@@ -159,16 +159,19 @@ const mailConfig = {
 // Function to render each window based on its configuration
 function positionWindow(windowElement, config, index) {
     const isMobile = window.innerWidth <= 767;
-    const position = isMobile ? config.content[index].position.mobile : config.content[index].position.desktop;
+    const position = config.content[index].position ? 
+                     (isMobile ? config.content[index].position.mobile : config.content[index].position.desktop) : 
+                     null;
 
     if (!position) {
-        centerWindow(windowElement);
+        centerWindow(windowElement);  // Use center if position is missing
     } else {
         windowElement.style.position = 'absolute';
         windowElement.style.left = position.x;
         windowElement.style.top = position.y;
     }
 }
+
 
 let highestZIndex = 1000; // Starting z-index for windows
 
@@ -203,8 +206,22 @@ function renderWindow(config) {
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('window-content');
 
+
         
-        if (item.type === 'gallery') {
+        if (item.type === 'text') {
+            const text = document.createElement('p');
+            text.textContent = item.content;
+            
+            if (config.id === 'fonts') {
+                // Specific styling for Fonts window
+                text.style.fontSize = '2rem'; // Larger font size for "Coming Soon"
+                text.style.textAlign = 'center';
+                text.style.margin = '20% 0';  // Centered vertically
+                text.style.fontFamily = 'inherit'; // Use default project font
+            }
+
+            contentDiv.appendChild(text);
+        } else if (item.type === 'gallery') {
             const isSmallScreen = window.innerWidth < 787;
             contentDiv.style.height = isSmallScreen ? 'calc(100% - 40px)': 'calc(80vh - 40px)';
             
@@ -414,10 +431,6 @@ function renderWindow(config) {
                 iframe.width = '100%';
                 iframe.height = '400px';
                 contentDiv.appendChild(iframe);
-            } else if (item.type === 'text') {
-                const text = document.createElement('p');
-                text.textContent = item.content;
-                contentDiv.appendChild(text);
             } else if (item.type === 'form') {
                 const form = document.createElement('form');
                 form.classList.add('contact-form');
