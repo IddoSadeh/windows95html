@@ -176,8 +176,8 @@ function renderWindow(config) {
 
         
         if (item.type === 'gallery') {
-            const isSmallScreen = window.innerWidth < 800;
-            contentDiv.style.height = isLargeScreen ? 'calc(80vh - 40px)': 'calc(100% - 40px)';
+            const isSmallScreen = window.innerWidth < 787;
+            contentDiv.style.height = isSmallScreen ? 'calc(100% - 40px)': 'calc(80vh - 40px)';
             
             const galleryWrapper = document.createElement('div');
             galleryWrapper.classList.add('gallery-wrapper');
