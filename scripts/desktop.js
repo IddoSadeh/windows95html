@@ -95,17 +95,17 @@ const windowsConfig = [
             { 
                 type: 'text', 
                 content: 'Description of Sting Project.', 
-                position: { desktop: { x: '60%', y: '10%' }, mobile: { x: '2%', y: '20%' } }
+                position: { desktop: { x: '60%', y: '10%' }, mobile: { x: '10%', y: '20%' } }
             },
             { 
                 type: 'text', 
                 content: 'Additional Sting information.', 
-                position: { desktop: { x: '60%', y: '35%' }, mobile: { x: '5%', y: '30%' } }
+                position: { desktop: { x: '60%', y: '35%' }, mobile: { x: '10%', y: '35%' } }
             },
             { 
                 type: 'text', 
                 content: 'Sting project team and contact details.', 
-                position: { desktop: { x: '60%', y: '60%' }, mobile: { x: '2%', y: '40%' } }
+                position: { desktop: { x: '60%', y: '60%' }, mobile: { x: '10%', y: '50%' } }
             }
         ]
     }
@@ -144,6 +144,13 @@ function positionWindow(windowElement, config, index) {
     }
 }
 
+let highestZIndex = 1000; // Starting z-index for windows
+
+// Function to bring a window to the front
+function bringWindowToFront(windowElement) {
+    highestZIndex += 1; // Increment the z-index
+    windowElement.style.zIndex = highestZIndex;
+}
 
 function renderWindow(config) {
     config.content.forEach((item, index) => {
@@ -152,7 +159,10 @@ function renderWindow(config) {
         windowElement.classList.add('window');
         windowElement.style.display = 'none';
 
-        const isLargeScreen = window.innerWidth > 1440; // Adjust threshold as needed
+
+        windowElement.addEventListener('mousedown', () => bringWindowToFront(windowElement));
+
+        const isLargeScreen = window.innerWidth > 1440; 
         windowElement.style.width = '40vw';
         windowElement.style.maxWidth = isLargeScreen ? '80vw' : '500px';
 
@@ -164,9 +174,10 @@ function renderWindow(config) {
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('window-content');
 
-        // Conditionally set contentDiv height based on item type and screen size
+        
         if (item.type === 'gallery') {
-            contentDiv.style.height = 'calc(80vh - 40px)';
+            const isSmallScreen = window.innerWidth < 800;
+            contentDiv.style.height = isLargeScreen ? 'calc(80vh - 40px)': 'calc(100% - 40px)';
             
             const galleryWrapper = document.createElement('div');
             galleryWrapper.classList.add('gallery-wrapper');
