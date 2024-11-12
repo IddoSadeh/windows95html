@@ -1,142 +1,297 @@
-// Cache DOM elements
-const timeDisplay = document.getElementById('time-display');
-const aboutMeButton = document.getElementById('about-me-button');
-const startMenu = document.getElementById('start-menu');
-const mailButton = document.getElementById('mail-button');
-const contactWindow = document.getElementById('contact-window');
-const contactClose = document.getElementById('contact-close');
-const contactCancel = document.getElementById('contact-cancel');
-const desktop = document.querySelector('.desktop');
+// Configuration for each desktop icon's behavior
+const windowsConfig = [
+    {
+        id: 'tetrisography',
+        label: 'Tetrisography',
+        icon: 'imgs/desktop/desktop_icon.svg',
+        content: [
+            { 
+                type: 'iframe', 
+                url: 'https://example.com', 
+                mobileFallback: true, 
+                position: { desktop: { x: 50, y: 50 }, mobile: { x: 10, y: 10 } }
+            },
+            { 
+                type: 'text', 
+                content: 'This is a description of the Tetrisography project.', 
+                position: { desktop: { x: 200, y: 200 }, mobile: { x: 10, y: 250 } }
+            }
+        ]
+    },
+    {
+        id: 'posters',
+        label: 'Posters',
+        icon: 'imgs/desktop/desktop_icon.svg',
+        content: [
+            { 
+                type: 'gallery', 
+                images: ['imgs/poster1.jpg', 'imgs/poster2.jpg', 'imgs/poster3.jpg'], 
+                position: { desktop: { x: 150, y: 100 }, mobile: { x: 20, y: 20 } }
+            }
+        ]
+    },
+    {
+        id: 'fonts',
+        label: 'Fonts',
+        icon: 'imgs/desktop/desktop_icon.svg',
+        content: [
+            { 
+                type: 'text', 
+                content: 'This is information about the fonts used in the project.', 
+                position: { desktop: { x: 300, y: 150 }, mobile: { x: 10, y: 300 } }
+            }
+        ]
+    },
+    {
+        id: 'cannalog',
+        label: 'Cannalog',
+        icon: 'imgs/desktop/desktop_icon.svg',
+        content: [
+            { 
+                type: 'gallery', 
+                images: ['imgs/cannalog1.jpg', 'imgs/cannalog2.jpg'], 
+                position: { desktop: { x: 100, y: 100 }, mobile: { x: 15, y: 15 } }
+            },
+            { 
+                type: 'image', 
+                src: 'imgs/cannalog_feature.jpg', 
+                position: { desktop: { x: 300, y: 50 }, mobile: { x: 20, y: 200 } }
+            },
+            { 
+                type: 'image', 
+                src: 'imgs/cannalog_team.jpg', 
+                position: { desktop: { x: 300, y: 300 }, mobile: { x: 30, y: 300 } }
+            },
+            { 
+                type: 'image', 
+                src: 'imgs/cannalog_demo.jpg', 
+                position: { desktop: { x: 500, y: 150 }, mobile: { x: 10, y: 350 } }
+            },
+            { 
+                type: 'text', 
+                content: 'This is a description of the Cannalog project.', 
+                position: { desktop: { x: 400, y: 250 }, mobile: { x: 10, y: 400 } }
+            },
+            { 
+                type: 'text', 
+                content: 'More information about Cannalog.', 
+                position: { desktop: { x: 600, y: 300 }, mobile: { x: 15, y: 450 } }
+            }
+        ]
+    },
+    {
+        id: 'sting',
+        label: 'Sting',
+        icon: 'imgs/desktop/desktop_icon.svg',
+        content: [
+            { 
+                type: 'gallery', 
+                images: ['imgs/sting1.jpg', 'imgs/sting2.jpg'], 
+                position: { desktop: { x: 200, y: 100 }, mobile: { x: 10, y: 10 } }
+            },
+            { 
+                type: 'text', 
+                content: 'Description of Sting Project.', 
+                position: { desktop: { x: 500, y: 200 }, mobile: { x: 10, y: 200 } }
+            },
+            { 
+                type: 'text', 
+                content: 'Additional Sting information.', 
+                position: { desktop: { x: 500, y: 350 }, mobile: { x: 20, y: 300 } }
+            },
+            { 
+                type: 'text', 
+                content: 'Sting project team and contact details.', 
+                position: { desktop: { x: 500, y: 100 }, mobile: { x: 10, y: 400 } }
+            }
+        ]
+    }
+];
 
-// Time display functionality
+
+// Mail Button Configuration (in Taskbar)
+const mailConfig = {
+    id: 'mail',
+    label: 'Mail',
+    icon: 'imgs/desktop/mail_icon.svg',
+    content: [
+        {
+            type: 'form',
+            fields: [
+                { label: 'Name', inputType: 'text', required: true },
+                { label: 'Email', inputType: 'email', required: true },
+                { label: 'Message', inputType: 'textarea', required: true }
+            ]
+        }
+    ]
+};
+
+// Function to render each window based on its configuration
+function positionWindow(windowElement, config, index) {
+    const isMobile = window.innerWidth <= 767;
+    const position = isMobile ? config.content[index].position.mobile : config.content[index].position.desktop;
+
+    if (!position) {
+        centerWindow(windowElement);
+    } else {
+        windowElement.style.left = `${position.x}px`;
+        windowElement.style.top = `${position.y}px`;
+    }
+}
+
+function renderWindow(config) {
+    config.content.forEach((item, index) => {
+        const windowElement = document.createElement('section');
+        windowElement.id = `${config.id}-window-${index}`;
+        windowElement.classList.add('window');
+        windowElement.style.display = 'none';
+
+        const titleBar = document.createElement('header');
+        titleBar.classList.add('window-titlebar');
+        titleBar.innerHTML = `<h2>${config.label} - Window ${index + 1}</h2><button class="window-button">✕</button>`;
+        windowElement.appendChild(titleBar);
+
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('window-content');
+
+        if (item.type === 'gallery') {
+            const gallery = document.createElement('div');
+            gallery.classList.add('scrollable-gallery');
+            item.images.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                gallery.appendChild(img);
+            });
+            contentDiv.appendChild(gallery);
+        } else if (item.type === 'iframe') {
+            const iframe = document.createElement('iframe');
+            iframe.src = item.url;
+            iframe.width = '100%';
+            iframe.height = '400px';
+            contentDiv.appendChild(iframe);
+        } else if (item.type === 'text') {
+            const text = document.createElement('p');
+            text.textContent = item.content;
+            contentDiv.appendChild(text);
+        } else if (item.type === 'form') {
+            const form = document.createElement('form');
+            form.classList.add('contact-form');
+            item.fields.forEach(field => {
+                const label = document.createElement('label');
+                label.textContent = field.label;
+
+                const input = document.createElement(field.inputType === 'textarea' ? 'textarea' : 'input');
+                input.type = field.inputType === 'textarea' ? '' : field.inputType;
+                input.required = field.required;
+                form.appendChild(label);
+                form.appendChild(input);
+            });
+            const submitButton = document.createElement('button');
+            submitButton.textContent = 'Send';
+            form.appendChild(submitButton);
+            contentDiv.appendChild(form);
+        }
+
+        windowElement.appendChild(contentDiv);
+        document.body.appendChild(windowElement);
+
+        titleBar.querySelector('.window-button').addEventListener('click', () => {
+            windowElement.style.display = 'none';
+        });
+
+        makeDraggable(windowElement, titleBar);
+    });
+}
+
+function setupIcons() {
+    windowsConfig.forEach(config => {
+        const iconButton = document.createElement('button');
+        iconButton.classList.add('desktop-icon');
+        iconButton.innerHTML = `<img src="${config.icon}" alt="${config.label}"> ${config.label}`;
+        iconButton.addEventListener('click', () => {
+            config.content.forEach((_, index) => {
+                const windowElement = document.getElementById(`${config.id}-window-${index}`);
+                if (!windowElement) {
+                    renderWindow(config);
+                }
+                const renderedWindow = document.getElementById(`${config.id}-window-${index}`);
+                renderedWindow.style.display = 'block';
+                positionWindow(renderedWindow, config, index);
+            });
+        });
+        document.getElementById('desktop').appendChild(iconButton);
+    });
+}
+
+setupIcons(); // Initialize desktop icons
+
+
+
+
+// Setup Mail Button in Taskbar
+const mailButton = document.getElementById('mail-button');
+mailButton.addEventListener('click', () => {
+    const mailWindow = document.getElementById('mail-window');
+    if (!mailWindow) {
+        renderWindow(mailConfig);
+    }
+    document.getElementById('mail-window').style.display = 'block';
+    centerWindow(document.getElementById('mail-window'));
+});
+
+// Utility function to center windows with taskbar offset
+function centerWindow(windowElement) {
+    const taskbarHeight = document.querySelector('.taskbar').offsetHeight;
+    const desktopHeight = document.getElementById('desktop').offsetHeight;
+
+    // Ensure window fits within the viewport on mobile
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight - taskbarHeight;
+
+    // Adjust window dimensions if larger than viewport
+    if (windowElement.offsetWidth > viewportWidth * 0.9) {
+        windowElement.style.width = `${viewportWidth * 0.9}px`;
+    }
+    if (windowElement.offsetHeight > viewportHeight * 0.8) {
+        windowElement.style.height = `${viewportHeight * 0.8}px`;
+    }
+
+    // Center the window
+    const x = (viewportWidth - windowElement.offsetWidth) / 2;
+    const y = (viewportHeight - windowElement.offsetHeight) / 2;
+    windowElement.style.left = `${x}px`;
+    windowElement.style.top = `${Math.max(y, 0)}px`;
+}
+
+// Clock Display in Taskbar
 function updateTime() {
     const now = new Date();
-    const hours = now.getHours() % 12 || 12; // Convert to 12-hour format
+    const hours = now.getHours() % 12 || 12;
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-    timeDisplay.textContent = `${hours}:${minutes} ${ampm}`;
+    document.getElementById('time-display').textContent = `${hours}:${minutes} ${ampm}`;
 }
 
-// Initialize clock
+// Initialize and update clock every minute
 updateTime();
-setInterval(updateTime, 60000); // Update every minute
+setInterval(updateTime, 60000);
 
-// Start menu functionality
-aboutMeButton.addEventListener('click', function(event) {
-    event.stopPropagation();
-    startMenu.classList.toggle('open');
-});
-
-// Close start menu when clicking outside
-document.addEventListener('click', function(event) {
-    if (!startMenu.contains(event.target) && !aboutMeButton.contains(event.target)) {
-        startMenu.classList.remove('open');
-    }
-});
-
-// Contact window functionality
-function handleContactWindow() {
-    // Center the window
-    const desktopRect = desktop.getBoundingClientRect();
-    const windowRect = contactWindow.getBoundingClientRect();
-    
-    const x = (desktopRect.width - windowRect.width) / 2;
-    const y = (desktopRect.height - windowRect.height) / 2;
-    
-    contactWindow.style.left = x + 'px';
-    contactWindow.style.top = y + 'px';
-}
-
-mailButton.addEventListener('click', function(event) {
-    contactWindow.style.display = 'block';
-    handleContactWindow();
-    event.stopPropagation();
-});
-
-// Close contact window handlers
-function closeContactWindow() {
-    contactWindow.style.display = 'none';
-}
-
-contactClose.addEventListener('click', closeContactWindow);
-contactCancel?.addEventListener('click', closeContactWindow);
-
-// Prevent clicks inside contact window from closing it
-contactWindow.addEventListener('click', function(event) {
-    event.stopPropagation();
-});
-
-// Close contact window when clicking outside
-document.addEventListener('click', function(event) {
-    if (!contactWindow.contains(event.target) && !mailButton.contains(event.target)) {
-        contactWindow.style.display = 'none';
-    }
-});
-
-// Draggable window functionality
+// Utility function for draggable windows
 function makeDraggable(element, handle) {
-    let isDragging = false;
-    let currentX = 0;
-    let currentY = 0;
-    let initialX = 0;
-    let initialY = 0;
+    let isDragging = false, initialX = 0, initialY = 0;
 
-    function startDragging(e) {
-        // Get the computed style for left and top
-        const styles = window.getComputedStyle(element);
-        currentX = parseInt(styles.left) || 0;
-        currentY = parseInt(styles.top) || 0;
-
-        // Get initial mouse/touch position
-        initialX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-        initialY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
-
+    handle.addEventListener('mousedown', (e) => {
         isDragging = true;
-        document.body.style.userSelect = 'none';
-    }
+        initialX = e.clientX - parseInt(element.style.left || 0);
+        initialY = e.clientY - parseInt(element.style.top || 0);
+    });
 
-    function stopDragging() {
-        isDragging = false;
-        document.body.style.userSelect = '';
-    }
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            element.style.left = `${e.clientX - initialX}px`;
+            element.style.top = `${e.clientY - initialY}px`;
+        }
+    });
 
-    function drag(e) {
-        if (!isDragging) return;
-
-        e.preventDefault();
-        
-        // Get current mouse/touch position
-        const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-        const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
-
-        // Calculate the new position
-        let newX = currentX + (clientX - initialX);
-        let newY = currentY + (clientY - initialY);
-
-        // Get boundaries
-        const desktopRect = desktop.getBoundingClientRect();
-        const windowRect = element.getBoundingClientRect();
-
-        // Constrain to desktop boundaries
-        newX = Math.max(0, Math.min(newX, desktopRect.width - windowRect.width));
-        newY = Math.max(0, Math.min(newY, desktopRect.height - windowRect.height));
-
-        // Apply the new position
-        element.style.left = newX + 'px';
-        element.style.top = newY + 'px';
-    }
-
-    // Mouse events
-    handle.addEventListener('mousedown', startDragging);
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', stopDragging);
-
-    // Touch events
-    handle.addEventListener('touchstart', startDragging);
-    document.addEventListener('touchmove', drag);
-    document.addEventListener('touchend', stopDragging);
+    document.addEventListener('mouseup', () => isDragging = false);
 }
-
-// Initialize draggable contact window
-const contactTitleBar = contactWindow.querySelector('.window-titlebar');
-makeDraggable(contactWindow, contactTitleBar);

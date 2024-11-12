@@ -12,6 +12,7 @@
     box-shadow: -2px -2px 0 #FFF, 2px 2px 0 #000;
 }
 
+
 .window-titlebar {
     display: flex;
     align-items: center;
@@ -93,11 +94,12 @@
 @media (max-width: 767px) {
     .window {
         width: 80vw;
-        max-width: 400px;
+        max-width: 90vw; /* Constrain to viewport width */
+        max-height: 70vh; /* Constrain to viewport height */
     }
     .window-titlebar {
         padding: 8px;
-        font-size: .85rem;
+        font-size: 0.85rem;
     }
     .window-content {
         padding: 8px;
@@ -107,14 +109,31 @@
 @media (max-width: 480px) {
     .window {
         width: 90vw;
-        max-width: 320px;
-        min-width: 240px;
+        max-width: 95vw; /* Further constrain for very small screens */
+        max-height: 60vh; /* Reduce height to fit */
     }
     .window-titlebar {
         padding: 6px;
-        font-size: .8rem;
+        font-size: 0.8rem;
     }
     .window-content {
         padding: 6px;
     }
+}
+
+.scrollable-gallery {
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrollable-gallery img {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.single-image {
+    max-width: 100%;
+    margin: 10px 0;
 }
