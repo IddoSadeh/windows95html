@@ -199,20 +199,30 @@ function renderWindow(config) {
                 const imageWidth = gallery.clientWidth;
                 const currentScroll = gallery.scrollLeft;
                 const maxScroll = gallery.scrollWidth - imageWidth;
-
+            
                 let newScroll;
                 if (direction === 'right') {
                     newScroll = currentScroll >= maxScroll - 10 ? 0 : currentScroll + imageWidth;
                 } else {
                     newScroll = currentScroll <= 10 ? maxScroll : currentScroll - imageWidth;
                 }
-
+            
+                // Disable arrows during scrolling
+                leftArrow.disabled = true;
+                rightArrow.disabled = true;
+            
                 gallery.scrollTo({
                     left: newScroll,
                     behavior: 'smooth'
                 });
+            
+                // Re-enable arrows after the animation is done
+                setTimeout(() => {
+                    leftArrow.disabled = false;
+                    rightArrow.disabled = false;
+                }, 400); // Adjust time if necessary to match the scroll animation duration
             };
-
+            
             // Arrow Click Event Listeners
             leftArrow.addEventListener('click', () => navigateGallery('left'));
             rightArrow.addEventListener('click', () => navigateGallery('right'));
