@@ -15,7 +15,7 @@
 
 /* Title Bar Styling */
 .window-titlebar {
-    height: 40px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,7 +23,7 @@
     background-color: #000181;
     border-bottom: 2px solid #393939;
     color: white;
-    font-size: 1rem;
+    font-size: 0.6rem;
     cursor: move;
 }
 
@@ -60,6 +60,8 @@
     border: 2px solid;
     border-color: #FFF #393939 #393939 #FFF;
     overflow: hidden; 
+    font-size: 0.6rem;
+    background-color: #FFF;
 }
 
 
