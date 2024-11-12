@@ -9,12 +9,12 @@ const windowsConfig = [
                 type: 'iframe', 
                 url: 'https://example.com', 
                 mobileFallback: true, 
-                position: { desktop: { x: 50, y: 50 }, mobile: { x: 10, y: 10 } }
+                position: { desktop: { x: '5%', y: '5%' }, mobile: { x: '2%', y: '2%' } }
             },
             { 
                 type: 'text', 
                 content: 'This is a description of the Tetrisography project.', 
-                position: { desktop: { x: 200, y: 200 }, mobile: { x: 10, y: 250 } }
+                position: { desktop: { x: '20%', y: '20%' }, mobile: { x: '2%', y: '30%' } }
             }
         ]
     },
@@ -26,7 +26,7 @@ const windowsConfig = [
             { 
                 type: 'gallery', 
                 images: ['imgs/poster1.jpg', 'imgs/poster2.jpg', 'imgs/poster3.jpg'], 
-                position: { desktop: { x: 150, y: 100 }, mobile: { x: 20, y: 20 } }
+                position: { desktop: { x: '15%', y: '10%' }, mobile: { x: '5%', y: '5%' } }
             }
         ]
     },
@@ -38,7 +38,7 @@ const windowsConfig = [
             { 
                 type: 'text', 
                 content: 'This is information about the fonts used in the project.', 
-                position: { desktop: { x: 300, y: 150 }, mobile: { x: 10, y: 300 } }
+                position: { desktop: { x: '30%', y: '15%' }, mobile: { x: '2%', y: '30%' } }
             }
         ]
     },
@@ -50,32 +50,32 @@ const windowsConfig = [
             { 
                 type: 'gallery', 
                 images: ['imgs/cannalog1.jpg', 'imgs/cannalog2.jpg'], 
-                position: { desktop: { x: 100, y: 100 }, mobile: { x: 15, y: 15 } }
+                position: { desktop: { x: '10%', y: '10%' }, mobile: { x: '5%', y: '5%' } }
             },
             { 
                 type: 'image', 
                 src: 'imgs/cannalog_feature.jpg', 
-                position: { desktop: { x: 300, y: 50 }, mobile: { x: 20, y: 200 } }
+                position: { desktop: { x: '30%', y: '5%' }, mobile: { x: '5%', y: '20%' } }
             },
             { 
                 type: 'image', 
                 src: 'imgs/cannalog_team.jpg', 
-                position: { desktop: { x: 300, y: 300 }, mobile: { x: 30, y: 300 } }
+                position: { desktop: { x: '30%', y: '30%' }, mobile: { x: '10%', y: '30%' } }
             },
             { 
                 type: 'image', 
                 src: 'imgs/cannalog_demo.jpg', 
-                position: { desktop: { x: 500, y: 150 }, mobile: { x: 10, y: 350 } }
+                position: { desktop: { x: '50%', y: '15%' }, mobile: { x: '2%', y: '35%' } }
             },
             { 
                 type: 'text', 
                 content: 'This is a description of the Cannalog project.', 
-                position: { desktop: { x: 400, y: 250 }, mobile: { x: 10, y: 400 } }
+                position: { desktop: { x: '40%', y: '25%' }, mobile: { x: '2%', y: '40%' } }
             },
             { 
                 type: 'text', 
                 content: 'More information about Cannalog.', 
-                position: { desktop: { x: 600, y: 300 }, mobile: { x: 15, y: 450 } }
+                position: { desktop: { x: '60%', y: '30%' }, mobile: { x: '5%', y: '45%' } }
             }
         ]
     },
@@ -86,27 +86,31 @@ const windowsConfig = [
         content: [
             { 
                 type: 'gallery', 
-                images: ['imgs/sting1.jpg', 'imgs/sting2.jpg'], 
-                position: { desktop: { x: 200, y: 100 }, mobile: { x: 10, y: 10 } }
+                images: ['imgs/sting/sting1.webp', 'imgs/sting/sting2.webp', 'imgs/sting/sting3.webp', 'imgs/sting/sting4.webp',
+                    'imgs/sting/sting5.webp', 'imgs/sting/sting6.webp', 'imgs/sting/sting7.webp', 'imgs/sting/sting8.webp',
+                    'imgs/sting/sting9.webp', 'imgs/sting/sting10.webp', 'imgs/sting/sting11.webp', 'imgs/sting/sting12.webp'
+                ], 
+                position: { desktop: { x: '15%', y: '10%' }, mobile: { x: '2%', y: '2%' } }
             },
             { 
                 type: 'text', 
                 content: 'Description of Sting Project.', 
-                position: { desktop: { x: 500, y: 200 }, mobile: { x: 10, y: 200 } }
+                position: { desktop: { x: '60%', y: '10%' }, mobile: { x: '2%', y: '20%' } }
             },
             { 
                 type: 'text', 
                 content: 'Additional Sting information.', 
-                position: { desktop: { x: 500, y: 350 }, mobile: { x: 20, y: 300 } }
+                position: { desktop: { x: '60%', y: '35%' }, mobile: { x: '5%', y: '30%' } }
             },
             { 
                 type: 'text', 
                 content: 'Sting project team and contact details.', 
-                position: { desktop: { x: 500, y: 100 }, mobile: { x: 10, y: 400 } }
+                position: { desktop: { x: '60%', y: '60%' }, mobile: { x: '2%', y: '40%' } }
             }
         ]
     }
 ];
+
 
 
 // Mail Button Configuration (in Taskbar)
@@ -134,10 +138,12 @@ function positionWindow(windowElement, config, index) {
     if (!position) {
         centerWindow(windowElement);
     } else {
-        windowElement.style.left = `${position.x}px`;
-        windowElement.style.top = `${position.y}px`;
+        windowElement.style.position = 'absolute';
+        windowElement.style.left = position.x;
+        windowElement.style.top = position.y;
     }
 }
+
 
 function renderWindow(config) {
     config.content.forEach((item, index) => {
@@ -145,6 +151,10 @@ function renderWindow(config) {
         windowElement.id = `${config.id}-window-${index}`;
         windowElement.classList.add('window');
         windowElement.style.display = 'none';
+
+        const isLargeScreen = window.innerWidth > 1440; // Adjust threshold as needed
+        windowElement.style.width = '40vw';
+        windowElement.style.maxWidth = isLargeScreen ? '80vw' : '500px';
 
         const titleBar = document.createElement('header');
         titleBar.classList.add('window-titlebar');
@@ -154,42 +164,111 @@ function renderWindow(config) {
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('window-content');
 
+        // Conditionally set contentDiv height based on item type and screen size
         if (item.type === 'gallery') {
+            contentDiv.style.height = 'calc(80vh - 40px)';
+            
+            const galleryWrapper = document.createElement('div');
+            galleryWrapper.classList.add('gallery-wrapper');
+
             const gallery = document.createElement('div');
             gallery.classList.add('scrollable-gallery');
             item.images.forEach(imgSrc => {
                 const img = document.createElement('img');
                 img.src = imgSrc;
+                img.loading = 'lazy';
                 gallery.appendChild(img);
             });
-            contentDiv.appendChild(gallery);
-        } else if (item.type === 'iframe') {
-            const iframe = document.createElement('iframe');
-            iframe.src = item.url;
-            iframe.width = '100%';
-            iframe.height = '400px';
-            contentDiv.appendChild(iframe);
-        } else if (item.type === 'text') {
-            const text = document.createElement('p');
-            text.textContent = item.content;
-            contentDiv.appendChild(text);
-        } else if (item.type === 'form') {
-            const form = document.createElement('form');
-            form.classList.add('contact-form');
-            item.fields.forEach(field => {
-                const label = document.createElement('label');
-                label.textContent = field.label;
 
-                const input = document.createElement(field.inputType === 'textarea' ? 'textarea' : 'input');
-                input.type = field.inputType === 'textarea' ? '' : field.inputType;
-                input.required = field.required;
-                form.appendChild(label);
-                form.appendChild(input);
+            galleryWrapper.appendChild(gallery);
+            contentDiv.appendChild(galleryWrapper);
+
+            // Left and Right Arrows for Desktop
+            const leftArrow = document.createElement('button');
+            leftArrow.classList.add('arrow', 'arrow-left');
+            leftArrow.innerHTML = '◀';
+            galleryWrapper.appendChild(leftArrow);
+
+            const rightArrow = document.createElement('button');
+            rightArrow.classList.add('arrow', 'arrow-right');
+            rightArrow.innerHTML = '▶';
+            galleryWrapper.appendChild(rightArrow);
+
+            // Function to handle gallery navigation
+            const navigateGallery = (direction) => {
+                const imageWidth = gallery.clientWidth;
+                const currentScroll = gallery.scrollLeft;
+                const maxScroll = gallery.scrollWidth - imageWidth;
+
+                let newScroll;
+                if (direction === 'right') {
+                    newScroll = currentScroll >= maxScroll - 10 ? 0 : currentScroll + imageWidth;
+                } else {
+                    newScroll = currentScroll <= 10 ? maxScroll : currentScroll - imageWidth;
+                }
+
+                gallery.scrollTo({
+                    left: newScroll,
+                    behavior: 'smooth'
+                });
+            };
+
+            // Arrow Click Event Listeners
+            leftArrow.addEventListener('click', () => navigateGallery('left'));
+            rightArrow.addEventListener('click', () => navigateGallery('right'));
+
+            // Swipe Navigation for Mobile with wrap-around
+            let startX;
+            gallery.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
             });
-            const submitButton = document.createElement('button');
-            submitButton.textContent = 'Send';
-            form.appendChild(submitButton);
-            contentDiv.appendChild(form);
+
+            gallery.addEventListener('touchmove', (e) => {
+                if (!startX) return;
+
+                const diff = startX - e.touches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    navigateGallery(diff > 0 ? 'right' : 'left');
+                    startX = null;
+                }
+            });
+
+            gallery.addEventListener('touchend', () => {
+                startX = null;
+            });
+
+        } else {
+            // For non-gallery content, set height for typical display
+            contentDiv.style.height = 'calc(100% - 40px)';
+
+            if (item.type === 'iframe') {
+                const iframe = document.createElement('iframe');
+                iframe.src = item.url;
+                iframe.width = '100%';
+                iframe.height = '400px';
+                contentDiv.appendChild(iframe);
+            } else if (item.type === 'text') {
+                const text = document.createElement('p');
+                text.textContent = item.content;
+                contentDiv.appendChild(text);
+            } else if (item.type === 'form') {
+                const form = document.createElement('form');
+                form.classList.add('contact-form');
+                item.fields.forEach(field => {
+                    const label = document.createElement('label');
+                    label.textContent = field.label;
+
+                    const input = document.createElement(field.inputType === 'textarea' ? 'textarea' : 'input');
+                    input.type = field.inputType === 'textarea' ? '' : field.inputType;
+                    input.required = field.required;
+                    form.appendChild(label);
+                    form.appendChild(input);
+                });
+                const submitButton = document.createElement('button');
+                submitButton.textContent = 'Send';
+                form.appendChild(submitButton);
+                contentDiv.appendChild(form);
+            }
         }
 
         windowElement.appendChild(contentDiv);
@@ -202,6 +281,7 @@ function renderWindow(config) {
         makeDraggable(windowElement, titleBar);
     });
 }
+
 
 function setupIcons() {
     windowsConfig.forEach(config => {
@@ -282,8 +362,18 @@ function makeDraggable(element, handle) {
 
     handle.addEventListener('mousedown', (e) => {
         isDragging = true;
+
+        // Convert percentages to pixel values
+        const rect = element.getBoundingClientRect();
+        element.style.left = `${rect.left}px`;
+        element.style.top = `${rect.top}px`;
+        element.style.position = 'absolute';
+
         initialX = e.clientX - parseInt(element.style.left || 0);
         initialY = e.clientY - parseInt(element.style.top || 0);
+
+        // Prevent text selection while dragging
+        e.preventDefault();
     });
 
     document.addEventListener('mousemove', (e) => {
@@ -293,5 +383,19 @@ function makeDraggable(element, handle) {
         }
     });
 
-    document.addEventListener('mouseup', () => isDragging = false);
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+
+            // Optionally, convert back to percentages if needed for layout
+            const parentRect = element.parentElement.getBoundingClientRect();
+            const elementRect = element.getBoundingClientRect();
+            const leftPercent = (elementRect.left / parentRect.width) * 100;
+            const topPercent = (elementRect.top / parentRect.height) * 100;
+
+            element.style.left = `${leftPercent}%`;
+            element.style.top = `${topPercent}%`;
+        }
+    });
 }
+

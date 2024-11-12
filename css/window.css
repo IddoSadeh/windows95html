@@ -1,19 +1,21 @@
+/* Window Styling */
 .window {
     position: absolute;
     z-index: 1000;
-    display: none;
-    width: 60vw;
+    width: 40vw;
     min-width: 280px;
     max-width: 500px;
     max-height: 80vh;
-    overflow: auto;
     background-color: #C0C0C0;
     border: 2px solid #000;
     box-shadow: -2px -2px 0 #FFF, 2px 2px 0 #000;
+    overflow: hidden;
 }
 
 
+/* Title Bar Styling */
 .window-titlebar {
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -33,6 +35,7 @@
     display: flex;
 }
 
+/* Title Bar Button Styling */
 .window-button {
     display: flex;
     align-items: center;
@@ -40,7 +43,6 @@
     width: 1.5em;
     height: 1.5em;
     margin-left: 2px;
-    padding: 0;
     font-size: 1em;
     color: #000;
     background-color: #C0C0C0;
@@ -52,12 +54,17 @@
     background-color: #FFF;
 }
 
+/* Window Content Styling */
 .window-content {
     padding: 10px;
     border: 2px solid;
     border-color: #FFF #393939 #393939 #FFF;
+    overflow: hidden; /* Keep content within boundaries */
 }
 
+
+
+/* Form Elements Inside Window */
 .window-content input[type="text"],
 .window-content input[type="email"],
 .window-content textarea {
@@ -91,11 +98,62 @@
     border: 2px inset #000;
 }
 
+
+
+
+.gallery-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.scrollable-gallery {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.scrollable-gallery img {
+    flex: 0 0 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Arrow Navigation for Gallery */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+}
+
+.arrow-left {
+    left: 0;
+}
+
+.arrow-right {
+    right: 0;
+}
+
+/* Hide arrows on mobile */
+@media (max-width: 767px) {
+    .arrow {
+        display: none;
+    }
+}
+
+/* Responsive Styling for Window */
 @media (max-width: 767px) {
     .window {
-        width: 80vw;
-        max-width: 90vw; /* Constrain to viewport width */
-        max-height: 70vh; /* Constrain to viewport height */
+        width: 60vw;
+        max-width: 90vw;
+        max-height: 70vh;
     }
     .window-titlebar {
         padding: 8px;
@@ -109,8 +167,8 @@
 @media (max-width: 480px) {
     .window {
         width: 90vw;
-        max-width: 95vw; /* Further constrain for very small screens */
-        max-height: 60vh; /* Reduce height to fit */
+        max-width: 95vw;
+        max-height: 60vh;
     }
     .window-titlebar {
         padding: 6px;
@@ -119,21 +177,4 @@
     .window-content {
         padding: 6px;
     }
-}
-
-.scrollable-gallery {
-    max-height: 400px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.scrollable-gallery img {
-    max-width: 100%;
-    margin-bottom: 10px;
-}
-
-.single-image {
-    max-width: 100%;
-    margin: 10px 0;
 }
