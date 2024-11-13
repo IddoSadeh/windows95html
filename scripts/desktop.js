@@ -138,313 +138,328 @@ const windowsConfig = [
 ];
 
 
+class WindowManager {
+    constructor() {
+        this.highestZIndex = 1000;
+    }
 
-// Function to render each window based on its configuration
-function positionWindow(windowElement, config, index) {
-    const isMobile = window.innerWidth <= 767;
-    const position = config.content[index].position ? 
-                     (isMobile ? config.content[index].position.mobile : config.content[index].position.desktop) : 
-                     null;
+    bringWindowToFront(windowElement) {
+        this.highestZIndex += 1;
+        windowElement.style.zIndex = this.highestZIndex;
+    }
 
-    if (!position) {
-        centerWindow(windowElement);  // Use center if position is missing
-    } else {
-        windowElement.style.position = 'absolute';
-        windowElement.style.left = position.x;
-        windowElement.style.top = position.y;
+    positionWindow(windowElement, item) {
+        const isMobile = window.innerWidth <= 767;
+        const position = item.position ? 
+                         (isMobile ? item.position.mobile : item.position.desktop) : 
+                         null;
+
+        if (!position) {
+            this.centerWindow(windowElement);
+        } else {
+            windowElement.style.position = 'absolute';
+            windowElement.style.left = position.x;
+            windowElement.style.top = position.y;
+        }
+    }
+
+    centerWindow(windowElement) {
+        const taskbarHeight = document.querySelector('.taskbar').offsetHeight;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight - taskbarHeight;
+
+        if (windowElement.offsetWidth > viewportWidth * 0.9) {
+            windowElement.style.width = `${viewportWidth * 0.9}px`;
+        }
+        if (windowElement.offsetHeight > viewportHeight * 0.8) {
+            windowElement.style.height = `${viewportHeight * 0.8}px`;
+        }
+
+        const x = (viewportWidth - windowElement.offsetWidth) / 2;
+        const y = (viewportHeight - windowElement.offsetHeight) / 2;
+        windowElement.style.left = `${x}px`;
+        windowElement.style.top = `${Math.max(y, 0)}px`;
+    }
+
+    makeDraggable(element, handle) {
+        let isDragging = false, initialX = 0, initialY = 0;
+
+        const onMouseMove = (e) => {
+            if (isDragging) {
+                element.style.left = `${e.clientX - initialX}px`;
+                element.style.top = `${e.clientY - initialY}px`;
+            }
+        };
+
+        const onMouseUp = () => {
+            if (isDragging) {
+                isDragging = false;
+                const parentRect = element.parentElement.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+                const leftPercent = (elementRect.left / parentRect.width) * 100;
+                const topPercent = (elementRect.top / parentRect.height) * 100;
+
+                element.style.left = `${leftPercent}%`;
+                element.style.top = `${topPercent}%`;
+
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+        };
+
+        handle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            const rect = element.getBoundingClientRect();
+            element.style.left = `${rect.left}px`;
+            element.style.top = `${rect.top}px`;
+            element.style.position = 'absolute';
+
+            initialX = e.clientX - parseInt(element.style.left || 0);
+            initialY = e.clientY - parseInt(element.style.top || 0);
+            e.preventDefault();
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    }
+
+    renderWindow(config) {
+        config.content.forEach((item, index) => {
+            const windowElement = document.createElement('section');
+            windowElement.id = `${config.id}-window-${index}`;
+            windowElement.classList.add('window');
+            windowElement.style.display = 'none';
+
+            windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
+
+            const isLargeScreen = window.innerWidth > 1440; 
+            windowElement.style.width = '40vw';
+            windowElement.style.maxWidth = isLargeScreen ? '80vw' : '500px';
+
+            const titleText = item.title || `${config.label} - Window ${index + 1}`;
+            const titleBar = document.createElement('header');
+            titleBar.classList.add('window-titlebar');
+            titleBar.innerHTML = `<h2>${titleText}</h2><button class="window-button">✕</button>`;
+            windowElement.appendChild(titleBar);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('window-content');
+
+            // Render content based on type
+            switch (item.type) {
+                case 'text':
+                    this.renderTextContent(item, contentDiv, config);
+                    break;
+                case 'gallery':
+                    this.renderGalleryContent(item, contentDiv);
+                    break;
+                case 'palette':
+                    this.renderPaletteContent(item, contentDiv);
+                    break;
+                case 'logos':
+                    this.renderLogosContent(item, contentDiv);
+                    break;
+                case 'iframe':
+                    this.renderIframeContent(item, contentDiv);
+                    break;
+                default:
+                    console.warn(`Unknown content type: ${item.type}`);
+            }
+
+            windowElement.appendChild(contentDiv);
+            document.body.appendChild(windowElement);
+
+            titleBar.querySelector('.window-button').addEventListener('click', () => {
+                windowElement.style.display = 'none';
+            });
+
+            this.makeDraggable(windowElement, titleBar);
+            windowElement.style.display = 'block';
+            this.positionWindow(windowElement, item);
+        });
+    }
+
+    renderTextContent(item, contentDiv, config) {
+        const text = document.createElement('p');
+        text.textContent = item.content;
+
+        if (config.id === 'fonts') {
+            text.style.fontSize = '2rem';
+            text.style.textAlign = 'center';
+            text.style.margin = '20% 0';
+            text.style.fontFamily = 'inherit';
+        }
+
+        contentDiv.appendChild(text);
+    }
+
+    renderGalleryContent(item, contentDiv) {
+        const isSmallScreen = window.innerWidth < 787;
+        contentDiv.style.height = isSmallScreen ? 'calc(100% - 40px)' : 'calc(70vh - 40px)';
+
+        const galleryWrapper = document.createElement('div');
+        galleryWrapper.classList.add('gallery-wrapper');
+
+        const gallery = document.createElement('div');
+        gallery.classList.add('scrollable-gallery');
+        item.images.forEach(imgSrc => {
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.loading = 'lazy';
+            gallery.appendChild(img);
+        });
+
+        galleryWrapper.appendChild(gallery);
+        contentDiv.appendChild(galleryWrapper);
+
+        const leftArrow = document.createElement('button');
+        leftArrow.classList.add('arrow', 'arrow-left');
+        leftArrow.innerHTML = '◀';
+        galleryWrapper.appendChild(leftArrow);
+
+        const rightArrow = document.createElement('button');
+        rightArrow.classList.add('arrow', 'arrow-right');
+        rightArrow.innerHTML = '▶';
+        galleryWrapper.appendChild(rightArrow);
+
+        const navigateGallery = (direction) => {
+            const imageWidth = gallery.clientWidth;
+            const currentScroll = gallery.scrollLeft;
+            const maxScroll = gallery.scrollWidth - imageWidth;
+
+            let newScroll;
+            if (direction === 'right') {
+                newScroll = currentScroll >= maxScroll - 10 ? 0 : currentScroll + imageWidth;
+            } else {
+                newScroll = currentScroll <= 10 ? maxScroll : currentScroll - imageWidth;
+            }
+
+            leftArrow.disabled = true;
+            rightArrow.disabled = true;
+
+            gallery.scrollTo({ left: newScroll, behavior: 'smooth' });
+
+            setTimeout(() => {
+                leftArrow.disabled = false;
+                rightArrow.disabled = false;
+            }, 400);
+        };
+
+        leftArrow.addEventListener('click', () => navigateGallery('left'));
+        rightArrow.addEventListener('click', () => navigateGallery('right'));
+
+        let startX;
+        gallery.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        gallery.addEventListener('touchmove', (e) => {
+            if (!startX) return;
+            const diff = startX - e.touches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                navigateGallery(diff > 0 ? 'right' : 'left');
+                startX = null;
+            }
+        });
+
+        gallery.addEventListener('touchend', () => {
+            startX = null;
+        });
+    }
+
+    renderPaletteContent(item, contentDiv) {
+        const paletteContainer = document.createElement('div');
+        paletteContainer.style.display = 'grid';
+        paletteContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        paletteContainer.style.gridTemplateRows = 'auto auto';
+        paletteContainer.style.gap = '8px';
+
+        item.colors.slice(0, 2).forEach(colorItem => {
+            const colorWrapper = document.createElement('div');
+            colorWrapper.style.display = 'flex';
+            colorWrapper.style.alignItems = 'center';
+
+            const colorBox = document.createElement('div');
+            colorBox.style.backgroundColor = colorItem.color;
+            colorBox.style.width = '40px';
+            colorBox.style.height = '40px';
+
+            const colorLabel = document.createElement('span');
+            colorLabel.textContent = colorItem.label;
+            colorLabel.style.marginLeft = '8px';
+
+            colorWrapper.appendChild(colorBox);
+            colorWrapper.appendChild(colorLabel);
+            paletteContainer.appendChild(colorWrapper);
+        });
+
+        paletteContainer.appendChild(document.createElement('div'));
+
+        item.colors.slice(2).forEach(colorItem => {
+            const colorWrapper = document.createElement('div');
+            colorWrapper.style.display = 'flex';
+            colorWrapper.style.alignItems = 'center';
+
+            const colorBox = document.createElement('div');
+            colorBox.style.backgroundColor = colorItem.color;
+            colorBox.style.width = '40px';
+            colorBox.style.height = '40px';
+
+            const colorLabel = document.createElement('span');
+            colorLabel.textContent = colorItem.label;
+            colorLabel.style.marginLeft = '8px';
+
+            colorWrapper.appendChild(colorBox);
+            colorWrapper.appendChild(colorLabel);
+            paletteContainer.appendChild(colorWrapper);
+        });
+
+        contentDiv.appendChild(paletteContainer);
+    }
+
+    renderLogosContent(item, contentDiv) {
+        const logosContainer = document.createElement('div');
+        logosContainer.style.display = 'grid';
+        logosContainer.style.gridTemplateColumns = '1fr 1fr';
+        logosContainer.style.gridTemplateRows = 'auto auto';
+
+        const renderLogo = (logoItem, row, col, rowSpan = 1) => {
+            const logoWrapper = document.createElement('div');
+            logoWrapper.style.textAlign = 'center';
+            logoWrapper.style.gridRow = `${row} / span ${rowSpan}`;
+            logoWrapper.style.gridColumn = col;
+            if (rowSpan > 1) logoWrapper.style.alignSelf = 'center';
+
+            const logoLabel = document.createElement('p');
+            logoLabel.textContent = logoItem.label;
+
+            const logoImg = document.createElement('img');
+            logoImg.src = logoItem.src;
+            logoImg.style.maxHeight = '10vh';
+            logoImg.style.objectFit = 'contain';
+
+            logoWrapper.appendChild(logoLabel);
+            logoWrapper.appendChild(logoImg);
+            logosContainer.appendChild(logoWrapper);
+        };
+
+        renderLogo(item.logos[0], 1, 1);
+        renderLogo(item.logos[1], 2, 1);
+        renderLogo(item.logos[2], 1, 2, 2);
+
+        contentDiv.appendChild(logosContainer);
+    }
+
+    renderIframeContent(item, contentDiv) {
+        const iframe = document.createElement('iframe');
+        iframe.src = item.url;
+        iframe.width = '100%';
+        iframe.height = '400px';
+        contentDiv.appendChild(iframe);
     }
 }
 
-
-let highestZIndex = 1000; // Starting z-index for windows
-
-// Function to bring a window to the front
-function bringWindowToFront(windowElement) {
-    highestZIndex += 1; // Increment the z-index
-    windowElement.style.zIndex = highestZIndex;
-}
-
-function renderWindow(config) {
-    config.content.forEach((item, index) => {
-        const windowElement = document.createElement('section');
-        windowElement.id = `${config.id}-window-${index}`;
-        windowElement.classList.add('window');
-        windowElement.style.display = 'none';
-
-
-        windowElement.addEventListener('mousedown', () => bringWindowToFront(windowElement));
-
-        const isLargeScreen = window.innerWidth > 1440; 
-        windowElement.style.width = '40vw';
-        windowElement.style.maxWidth = isLargeScreen ? '80vw' : '500px';
-
-        const titleText = item.title || `${config.label} - Window ${index + 1}`;
-        
-        const titleBar = document.createElement('header');
-        titleBar.classList.add('window-titlebar');
-        titleBar.innerHTML = `<h2>${titleText}</h2><button class="window-button">✕</button>`;
-        windowElement.appendChild(titleBar);
-
-
-        const contentDiv = document.createElement('div');
-        contentDiv.classList.add('window-content');
-
-
-        
-        if (item.type === 'text') {
-            const text = document.createElement('p');
-            text.textContent = item.content;
-            
-            if (config.id === 'fonts') {
-                // Specific styling for Fonts window
-                text.style.fontSize = '2rem'; // Larger font size for "Coming Soon"
-                text.style.textAlign = 'center';
-                text.style.margin = '20% 0';  // Centered vertically
-                text.style.fontFamily = 'inherit'; // Use default project font
-            }
-
-            contentDiv.appendChild(text);
-        } else if (item.type === 'gallery') {
-            const isSmallScreen = window.innerWidth < 787;
-            contentDiv.style.height = isSmallScreen ? 'calc(100% - 40px)': 'calc(70vh - 40px)';
-            
-            const galleryWrapper = document.createElement('div');
-            galleryWrapper.classList.add('gallery-wrapper');
-
-            const gallery = document.createElement('div');
-            gallery.classList.add('scrollable-gallery');
-            item.images.forEach(imgSrc => {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.loading = 'lazy';
-                gallery.appendChild(img);
-            });
-
-            galleryWrapper.appendChild(gallery);
-            contentDiv.appendChild(galleryWrapper);
-
-            // Left and Right Arrows for Desktop
-            const leftArrow = document.createElement('button');
-            leftArrow.classList.add('arrow', 'arrow-left');
-            leftArrow.innerHTML = '◀';
-            galleryWrapper.appendChild(leftArrow);
-
-            const rightArrow = document.createElement('button');
-            rightArrow.classList.add('arrow', 'arrow-right');
-            rightArrow.innerHTML = '▶';
-            galleryWrapper.appendChild(rightArrow);
-
-            // Function to handle gallery navigation
-            const navigateGallery = (direction) => {
-                const imageWidth = gallery.clientWidth;
-                const currentScroll = gallery.scrollLeft;
-                const maxScroll = gallery.scrollWidth - imageWidth;
-            
-                let newScroll;
-                if (direction === 'right') {
-                    newScroll = currentScroll >= maxScroll - 10 ? 0 : currentScroll + imageWidth;
-                } else {
-                    newScroll = currentScroll <= 10 ? maxScroll : currentScroll - imageWidth;
-                }
-            
-                // Disable arrows during scrolling
-                leftArrow.disabled = true;
-                rightArrow.disabled = true;
-            
-                gallery.scrollTo({
-                    left: newScroll,
-                    behavior: 'smooth'
-                });
-            
-                // Re-enable arrows after the animation is done
-                setTimeout(() => {
-                    leftArrow.disabled = false;
-                    rightArrow.disabled = false;
-                }, 400); // Adjust time if necessary to match the scroll animation duration
-            };
-            
-            // Arrow Click Event Listeners
-            leftArrow.addEventListener('click', () => navigateGallery('left'));
-            rightArrow.addEventListener('click', () => navigateGallery('right'));
-
-            // Swipe Navigation for Mobile with wrap-around
-            let startX;
-            gallery.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-            });
-
-            gallery.addEventListener('touchmove', (e) => {
-                if (!startX) return;
-
-                const diff = startX - e.touches[0].clientX;
-                if (Math.abs(diff) > 50) {
-                    navigateGallery(diff > 0 ? 'right' : 'left');
-                    startX = null;
-                }
-            });
-
-            gallery.addEventListener('touchend', () => {
-                startX = null;
-            });
-
-        } else if (item.type === 'palette') {
-            // Create a color palette layout with 2 rows and 3 columns
-            const paletteContainer = document.createElement('div');
-            paletteContainer.style.display = 'grid';
-            paletteContainer.style.gridTemplateColumns = 'repeat(3, 1fr)'; // 3 columns
-            paletteContainer.style.gridTemplateRows = 'auto auto';         // 2 rows
-            paletteContainer.style.gap = '8px';
-        
-            // Top row with 2 colors (leave the third column empty)
-            item.colors.slice(0, 2).forEach(colorItem => {
-                const colorWrapper = document.createElement('div');
-                colorWrapper.style.display = 'flex';
-                colorWrapper.style.alignItems = 'center';
-        
-                const colorBox = document.createElement('div');
-                colorBox.style.backgroundColor = colorItem.color;
-                colorBox.style.width = '40px';
-                colorBox.style.height = '40px';
-        
-                const colorLabel = document.createElement('span');
-                colorLabel.textContent = colorItem.label;
-                colorLabel.style.marginLeft = '8px';
-        
-                colorWrapper.appendChild(colorBox);
-                colorWrapper.appendChild(colorLabel);
-                paletteContainer.appendChild(colorWrapper);
-            });
-        
-            // Add an empty cell in the top row's third column
-            const emptyCell = document.createElement('div');
-            paletteContainer.appendChild(emptyCell);
-        
-            // Bottom row with 3 colors
-            item.colors.slice(2).forEach(colorItem => {
-                const colorWrapper = document.createElement('div');
-                colorWrapper.style.display = 'flex';
-                colorWrapper.style.alignItems = 'center';
-        
-                const colorBox = document.createElement('div');
-                colorBox.style.backgroundColor = colorItem.color;
-                colorBox.style.width = '40px';
-                colorBox.style.height = '40px';
-        
-                const colorLabel = document.createElement('span');
-                colorLabel.textContent = colorItem.label;
-                colorLabel.style.marginLeft = '8px';
-        
-                colorWrapper.appendChild(colorBox);
-                colorWrapper.appendChild(colorLabel);
-                paletteContainer.appendChild(colorWrapper);
-            });
-        
-            contentDiv.appendChild(paletteContainer);
-        } else if (item.type === 'logos') {
-            // Create logos layout with 2 columns and 2 rows
-            const logosContainer = document.createElement('div');
-            logosContainer.style.display = 'grid';
-            logosContainer.style.gridTemplateColumns = '1fr 1fr';  // 2 columns
-            logosContainer.style.gridTemplateRows = 'auto auto';   // 2 rows
-
-        
-            // First logo in the left column, first row
-            const logo1Wrapper = document.createElement('div');
-            logo1Wrapper.style.textAlign = 'center';
-            logo1Wrapper.style.gridRow = '1';
-            logo1Wrapper.style.gridColumn = '1';
-        
-            const logo1Label = document.createElement('p');
-            logo1Label.textContent = item.logos[0].label;
-        
-            const logo1Img = document.createElement('img');
-            logo1Img.src = item.logos[0].src;
-            logo1Img.style.maxHeight = '10vh';
-            logo1Img.style.objectFit = 'contain';
-        
-            logo1Wrapper.appendChild(logo1Label);
-            logo1Wrapper.appendChild(logo1Img);
-            logosContainer.appendChild(logo1Wrapper);
-        
-            // Second logo in the left column, second row
-            const logo2Wrapper = document.createElement('div');
-            logo2Wrapper.style.textAlign = 'center';
-            logo2Wrapper.style.gridRow = '2';
-            logo2Wrapper.style.gridColumn = '1';
-        
-            const logo2Label = document.createElement('p');
-            logo2Label.textContent = item.logos[1].label;
-        
-            const logo2Img = document.createElement('img');
-            logo2Img.src = item.logos[1].src;
-            logo2Img.style.maxHeight = '10vh';
-            logo2Img.style.objectFit = 'contain';
-        
-            logo2Wrapper.appendChild(logo2Label);
-            logo2Wrapper.appendChild(logo2Img);
-            logosContainer.appendChild(logo2Wrapper);
-        
-            // Third logo centered vertically in the right column
-            const logo3Wrapper = document.createElement('div');
-            logo3Wrapper.style.textAlign = 'center';
-            logo3Wrapper.style.gridRow = '1 / span 2'; // Span both rows to center vertically
-            logo3Wrapper.style.gridColumn = '2';
-            logo3Wrapper.style.alignSelf = 'center';   // Center within the cell vertically
-        
-            const logo3Label = document.createElement('p');
-            logo3Label.textContent = item.logos[2].label;
-        
-            const logo3Img = document.createElement('img');
-            logo3Img.src = item.logos[2].src;
-            logo3Img.style.maxHeight = '10vh';
-            logo3Img.style.objectFit = 'contain';
-        
-            logo3Wrapper.appendChild(logo3Label);
-            logo3Wrapper.appendChild(logo3Img);
-            logosContainer.appendChild(logo3Wrapper);
-        
-            contentDiv.appendChild(logosContainer);
-        } else {
-            // For non-gallery content, set height for typical display
-            contentDiv.style.height = 'calc(100% - 40px)';
-
-            if (item.type === 'iframe') {
-                const iframe = document.createElement('iframe');
-                iframe.src = item.url;
-                iframe.width = '100%';
-                iframe.height = '400px';
-                contentDiv.appendChild(iframe);
-            } else if (item.type === 'form') {
-                const form = document.createElement('form');
-                form.classList.add('contact-form');
-                item.fields.forEach(field => {
-                    const label = document.createElement('label');
-                    label.textContent = field.label;
-
-                    const input = document.createElement(field.inputType === 'textarea' ? 'textarea' : 'input');
-                    input.type = field.inputType === 'textarea' ? '' : field.inputType;
-                    input.required = field.required;
-                    form.appendChild(label);
-                    form.appendChild(input);
-                });
-                const submitButton = document.createElement('button');
-                submitButton.textContent = 'Send';
-                form.appendChild(submitButton);
-                contentDiv.appendChild(form);
-            }
-        }
-
-        windowElement.appendChild(contentDiv);
-        document.body.appendChild(windowElement);
-
-        titleBar.querySelector('.window-button').addEventListener('click', () => {
-            windowElement.style.display = 'none';
-        });
-
-        makeDraggable(windowElement, titleBar);
-    });
-}
-
+const windowManager = new WindowManager();
 
 function setupIcons() {
     windowsConfig.forEach(config => {
@@ -452,59 +467,23 @@ function setupIcons() {
         iconButton.classList.add('desktop-icon');
         iconButton.innerHTML = `<img src="${config.icon}" alt="${config.label}"> ${config.label}`;
         iconButton.addEventListener('click', () => {
-            config.content.forEach((_, index) => {
-                const windowElement = document.getElementById(`${config.id}-window-${index}`);
+            config.content.forEach((item, index) => {
+                let windowElement = document.getElementById(`${config.id}-window-${index}`);
                 if (!windowElement) {
-                    renderWindow(config);
+                    windowManager.renderWindow(config);
+                    windowElement = document.getElementById(`${config.id}-window-${index}`);
+                } else {
+                    windowElement.style.display = 'block';
+                    windowManager.bringWindowToFront(windowElement);
                 }
-                const renderedWindow = document.getElementById(`${config.id}-window-${index}`);
-                renderedWindow.style.display = 'block';
-                positionWindow(renderedWindow, config, index);
+                windowManager.positionWindow(windowElement, item);
             });
         });
         document.getElementById('desktop').appendChild(iconButton);
     });
 }
 
-setupIcons(); // Initialize desktop icons
-
-
-
-
-// Setup Mail Button in Taskbar
-const mailButton = document.getElementById('mail-button');
-mailButton.addEventListener('click', () => {
-    const mailWindow = document.getElementById('mail-window');
-    if (!mailWindow) {
-        renderWindow(mailConfig);
-    }
-    document.getElementById('mail-window').style.display = 'block';
-    centerWindow(document.getElementById('mail-window'));
-});
-
-// Utility function to center windows with taskbar offset
-function centerWindow(windowElement) {
-    const taskbarHeight = document.querySelector('.taskbar').offsetHeight;
-    const desktopHeight = document.getElementById('desktop').offsetHeight;
-
-    // Ensure window fits within the viewport on mobile
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight - taskbarHeight;
-
-    // Adjust window dimensions if larger than viewport
-    if (windowElement.offsetWidth > viewportWidth * 0.9) {
-        windowElement.style.width = `${viewportWidth * 0.9}px`;
-    }
-    if (windowElement.offsetHeight > viewportHeight * 0.8) {
-        windowElement.style.height = `${viewportHeight * 0.8}px`;
-    }
-
-    // Center the window
-    const x = (viewportWidth - windowElement.offsetWidth) / 2;
-    const y = (viewportHeight - windowElement.offsetHeight) / 2;
-    windowElement.style.left = `${x}px`;
-    windowElement.style.top = `${Math.max(y, 0)}px`;
-}
+setupIcons();
 
 // Clock Display in Taskbar
 function updateTime() {
@@ -515,50 +494,5 @@ function updateTime() {
     document.getElementById('time-display').textContent = `${hours}:${minutes} ${ampm}`;
 }
 
-// Initialize and update clock every minute
 updateTime();
 setInterval(updateTime, 60000);
-
-// Utility function for draggable windows
-function makeDraggable(element, handle) {
-    let isDragging = false, initialX = 0, initialY = 0;
-
-    handle.addEventListener('mousedown', (e) => {
-        isDragging = true;
-
-        // Convert percentages to pixel values
-        const rect = element.getBoundingClientRect();
-        element.style.left = `${rect.left}px`;
-        element.style.top = `${rect.top}px`;
-        element.style.position = 'absolute';
-
-        initialX = e.clientX - parseInt(element.style.left || 0);
-        initialY = e.clientY - parseInt(element.style.top || 0);
-
-        // Prevent text selection while dragging
-        e.preventDefault();
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-            element.style.left = `${e.clientX - initialX}px`;
-            element.style.top = `${e.clientY - initialY}px`;
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        if (isDragging) {
-            isDragging = false;
-
-            // Optionally, convert back to percentages if needed for layout
-            const parentRect = element.parentElement.getBoundingClientRect();
-            const elementRect = element.getBoundingClientRect();
-            const leftPercent = (elementRect.left / parentRect.width) * 100;
-            const topPercent = (elementRect.top / parentRect.height) * 100;
-
-            element.style.left = `${leftPercent}%`;
-            element.style.top = `${topPercent}%`;
-        }
-    });
-}
-
