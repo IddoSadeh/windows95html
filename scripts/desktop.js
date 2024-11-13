@@ -54,39 +54,63 @@ const windowsConfig = [
         content: [
             { 
                 type: 'gallery', 
-                title: 'Cannalog Image Gallery', // Title for first gallery window
-                images: ['imgs/cannalog1.jpg', 'imgs/cannalog2.jpg'], 
-                position: { desktop: { x: '10%', y: '10%' }, mobile: { x: '5%', y: '5%' } }
+                title: 'Cannalog Gallery', 
+                images: [
+                    'imgs/cannalog/cannalog01.webp', 
+                    'imgs/cannalog/cannalog02.webp', 
+                    'imgs/cannalog/cannalog03.webp', 
+                    'imgs/cannalog/cannalog04.webp', 
+                    'imgs/cannalog/cannalog05.webp'
+                ], 
+                position: { 
+                    desktop: { x: '5%', y: '5%' }, 
+                    mobile: { x: '5%', y: '5%' } 
+                }
             },
             { 
                 type: 'image', 
-                title: 'Cannalog Feature Image', // Title for feature image
-                src: 'imgs/cannalog_feature.jpg', 
-                position: { desktop: { x: '30%', y: '5%' }, mobile: { x: '10%', y: '20%' } }
-            },
-            { 
-                type: 'image', 
-                title: 'Cannalog Team Image', // Title for team image
-                src: 'imgs/cannalog_team.jpg', 
-                position: { desktop: { x: '30%', y: '30%' }, mobile: { x: '15%', y: '30%' } }
-            },
-            { 
-                type: 'image', 
-                title: 'Cannalog Demo Image', // Title for demo image
-                src: 'imgs/cannalog_demo.jpg', 
-                position: { desktop: { x: '50%', y: '15%' }, mobile: { x: '5%', y: '35%' } }
+                title: 'Cannalog Image 1',
+                src: 'imgs/cannalog/cannalog06.webp', 
+                position: { 
+                    desktop: { x: '5%', y: '50%' }, 
+                    mobile: { x: '10%', y: '30%' } 
+                }
             },
             { 
                 type: 'text', 
-                title: 'Cannalog Project Description', // Title for project description
-                content: 'This is a description of the Cannalog project.', 
-                position: { desktop: { x: '40%', y: '25%' }, mobile: { x: '5%', y: '40%' } }
+                title: 'Cannalog Description', 
+                content: 'Design and development of an app for managing medical cannabis consumption, tailored specifically for users dealing with sleep disorders. The primary goal of the app is to help users accurately track their inventory and daily consumption, receive timely reminders for doses and inventory refills, analyze their consumption patterns, and monitor sleep patterns to maximize treatment efficacy and improve sleep quality. The project involved identifying user needs, researching existing solutions, designing the initial user interface and data models, conducting user testing, and refining the app accordingly.', 
+                position: { 
+                    desktop: { x: '55%', y: '5%' }, 
+                    mobile: { x: '5%', y: '60%' } 
+                }
             },
             { 
                 type: 'text', 
-                title: 'Additional Cannalog Information', // Title for additional information
-                content: 'More information about Cannalog.', 
-                position: { desktop: { x: '60%', y: '30%' }, mobile: { x: '10%', y: '45%' } }
+                title: 'User Story',
+                content: 'When managing my medical cannabis treatment for sleep issues, I want an app that helps me accurately track my supply and daily usage, receive timely reminders for doses and refills, analyze my consumption patterns, and monitor my sleep patterns so that I never run out of cannabis, stay within my prescribed limits, and optimize my treatment effectiveness to improve my sleep quality.', 
+                position: { 
+                    desktop: { x: '55%', y: '35%' }, 
+                    mobile: { x: '5%', y: '75%' } 
+                }
+            },
+            { 
+                type: 'image', 
+                title: 'Cannalog Image 2', 
+                src: 'imgs/cannalog/cannalog07.webp', 
+                position: { 
+                    desktop: { x: '55%', y: '65%' }, 
+                    mobile: { x: '10%', y: '90%' } 
+                }
+            },
+            { 
+                type: 'image', 
+                title: 'Cannalog Image 3', 
+                src: 'imgs/cannalog/cannalog08.webp', 
+                position: { 
+                    desktop: { x: '55%', y: '80%' }, 
+                    mobile: { x: '5%', y: '105%' } 
+                }
             }
         ]
     },
@@ -252,8 +276,6 @@ class WindowManager {
         windowElement = document.createElement('section');
         windowElement.id = windowElementId;
         windowElement.classList.add('window');
-        // Remove the line that hides the window initially
-        // windowElement.style.display = 'none';
 
         windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
 
@@ -286,6 +308,9 @@ class WindowManager {
                 break;
             case 'iframe':
                 this.renderIframeContent(item, contentDiv);
+                break;
+            case 'image':
+                this.renderImageContent(item, contentDiv);
                 break;
             case 'form':
                 this.renderFormContent(item, contentDiv);
@@ -442,6 +467,37 @@ class WindowManager {
         contentDiv.appendChild(paletteContainer);
     }
 
+    renderImageContent(item, contentDiv, windowElement) {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.style.display = 'block';
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        img.loading = 'lazy';
+        contentDiv.appendChild(img);
+    
+        // Wait for the image to load and render
+        img.addEventListener('load', () => {
+            // Remove any padding or margin from contentDiv and windowElement
+            contentDiv.style.padding = '0';
+            contentDiv.style.margin = '0';
+            windowElement.style.padding = '0';
+            windowElement.style.margin = '0';
+    
+            // Get the computed dimensions of the image
+            const computedStyle = window.getComputedStyle(img);
+            const imageWidth = img.clientWidth;
+            const imageHeight = img.clientHeight;
+    
+            // Set window size based on the image size
+            windowElement.style.width = `${imageWidth}px`;
+            windowElement.style.height = `${imageHeight + 30}px`; // +30 for title bar height
+    
+            // Reposition the window in case size changes affect its position
+            this.positionWindow(windowElement, item);
+        });
+    }
+    
     renderLogosContent(item, contentDiv) {
         const logosContainer = document.createElement('div');
         logosContainer.style.display = 'grid';
