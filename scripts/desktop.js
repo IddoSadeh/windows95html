@@ -137,7 +137,25 @@ const windowsConfig = [
     }
 ];
 
+const mailConfig = {
+    id: 'mail',
+    label: 'Mail',
+    content: [
+        {
+            type: 'form',
+            title: 'Contact Me',
+            fields: [
+                { label: 'Name', inputType: 'text', required: true },
+                { label: 'Email', inputType: 'email', required: true },
+                { label: 'Message', inputType: 'textarea', required: true }
+            ],
+            position: { desktop: { x: '30%', y: '20%' }, mobile: { x: '5%', y: '10%' } }
+        }
+    ]
+};
 
+
+// Class to manage windows
 class WindowManager {
     constructor() {
         this.highestZIndex = 1000;
@@ -164,7 +182,7 @@ class WindowManager {
     }
 
     centerWindow(windowElement) {
-        const taskbarHeight = document.querySelector('.taskbar').offsetHeight;
+        const taskbarHeight = document.querySelector('.taskbar')?.offsetHeight || 0;
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight - taskbarHeight;
 
@@ -223,60 +241,67 @@ class WindowManager {
         });
     }
 
-    renderWindow(config) {
-        config.content.forEach((item, index) => {
-            const windowElement = document.createElement('section');
-            windowElement.id = `${config.id}-window-${index}`;
-            windowElement.classList.add('window');
+    renderWindow(config, item, index) {
+        const windowElementId = `${config.id}-window-${index}`;
+        let windowElement = document.getElementById(windowElementId);
+        if (windowElement) {
+            // Window already exists, do not create again
+            return;
+        }
+
+        windowElement = document.createElement('section');
+        windowElement.id = windowElementId;
+        windowElement.classList.add('window');
+        // Remove the line that hides the window initially
+        // windowElement.style.display = 'none';
+
+        windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
+
+        const isLargeScreen = window.innerWidth > 1440; 
+        windowElement.style.width = '40vw';
+        windowElement.style.maxWidth = isLargeScreen ? '80vw' : '500px';
+
+        const titleText = item.title || `${config.label} - Window ${index + 1}`;
+        const titleBar = document.createElement('header');
+        titleBar.classList.add('window-titlebar');
+        titleBar.innerHTML = `<h2>${titleText}</h2><button class="window-button">✕</button>`;
+        windowElement.appendChild(titleBar);
+
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('window-content');
+
+        // Render content based on type
+        switch (item.type) {
+            case 'text':
+                this.renderTextContent(item, contentDiv, config);
+                break;
+            case 'gallery':
+                this.renderGalleryContent(item, contentDiv);
+                break;
+            case 'palette':
+                this.renderPaletteContent(item, contentDiv);
+                break;
+            case 'logos':
+                this.renderLogosContent(item, contentDiv);
+                break;
+            case 'iframe':
+                this.renderIframeContent(item, contentDiv);
+                break;
+            case 'form':
+                this.renderFormContent(item, contentDiv);
+                break;
+            default:
+                console.warn(`Unknown content type: ${item.type}`);
+        }
+
+        windowElement.appendChild(contentDiv);
+        document.body.appendChild(windowElement);
+
+        titleBar.querySelector('.window-button').addEventListener('click', () => {
             windowElement.style.display = 'none';
-
-            windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
-
-            const isLargeScreen = window.innerWidth > 1440; 
-            windowElement.style.width = '40vw';
-            windowElement.style.maxWidth = isLargeScreen ? '80vw' : '500px';
-
-            const titleText = item.title || `${config.label} - Window ${index + 1}`;
-            const titleBar = document.createElement('header');
-            titleBar.classList.add('window-titlebar');
-            titleBar.innerHTML = `<h2>${titleText}</h2><button class="window-button">✕</button>`;
-            windowElement.appendChild(titleBar);
-
-            const contentDiv = document.createElement('div');
-            contentDiv.classList.add('window-content');
-
-            // Render content based on type
-            switch (item.type) {
-                case 'text':
-                    this.renderTextContent(item, contentDiv, config);
-                    break;
-                case 'gallery':
-                    this.renderGalleryContent(item, contentDiv);
-                    break;
-                case 'palette':
-                    this.renderPaletteContent(item, contentDiv);
-                    break;
-                case 'logos':
-                    this.renderLogosContent(item, contentDiv);
-                    break;
-                case 'iframe':
-                    this.renderIframeContent(item, contentDiv);
-                    break;
-                default:
-                    console.warn(`Unknown content type: ${item.type}`);
-            }
-
-            windowElement.appendChild(contentDiv);
-            document.body.appendChild(windowElement);
-
-            titleBar.querySelector('.window-button').addEventListener('click', () => {
-                windowElement.style.display = 'none';
-            });
-
-            this.makeDraggable(windowElement, titleBar);
-            windowElement.style.display = 'block';
-            this.positionWindow(windowElement, item);
         });
+
+        this.makeDraggable(windowElement, titleBar);
     }
 
     renderTextContent(item, contentDiv, config) {
@@ -457,6 +482,42 @@ class WindowManager {
         iframe.height = '400px';
         contentDiv.appendChild(iframe);
     }
+
+    renderFormContent(item, contentDiv) {
+        const form = document.createElement('form');
+        form.classList.add('contact-form');
+
+        item.fields.forEach(field => {
+            const label = document.createElement('label');
+            label.textContent = field.label;
+
+            let input;
+            if (field.inputType === 'textarea') {
+                input = document.createElement('textarea');
+            } else {
+                input = document.createElement('input');
+                input.type = field.inputType;
+            }
+            input.required = field.required;
+            input.name = field.label.toLowerCase();
+
+            form.appendChild(label);
+            form.appendChild(input);
+        });
+
+        const submitButton = document.createElement('button');
+        submitButton.textContent = 'Send';
+        submitButton.type = 'submit';
+        form.appendChild(submitButton);
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle form submission here
+            alert('Form submitted!');
+        });
+
+        contentDiv.appendChild(form);
+    }
 }
 
 const windowManager = new WindowManager();
@@ -467,23 +528,60 @@ function setupIcons() {
         iconButton.classList.add('desktop-icon');
         iconButton.innerHTML = `<img src="${config.icon}" alt="${config.label}"> ${config.label}`;
         iconButton.addEventListener('click', () => {
+            // Check if any of the windows for this icon are open
+            let anyWindowOpen = false;
             config.content.forEach((item, index) => {
-                let windowElement = document.getElementById(`${config.id}-window-${index}`);
-                if (!windowElement) {
-                    windowManager.renderWindow(config);
-                    windowElement = document.getElementById(`${config.id}-window-${index}`);
-                } else {
+                const windowElement = document.getElementById(`${config.id}-window-${index}`);
+                if (windowElement && windowElement.style.display !== 'none') {
+                    anyWindowOpen = true;
+                }
+            });
+
+            if (anyWindowOpen) {
+                // Close all windows
+                config.content.forEach((item, index) => {
+                    const windowElement = document.getElementById(`${config.id}-window-${index}`);
+                    if (windowElement) {
+                        windowElement.style.display = 'none';
+                    }
+                });
+            } else {
+                // Open all windows
+                config.content.forEach((item, index) => {
+                    let windowElement = document.getElementById(`${config.id}-window-${index}`);
+                    if (!windowElement) {
+                        windowManager.renderWindow(config, item, index);
+                        windowElement = document.getElementById(`${config.id}-window-${index}`);
+                    }
+                    // Ensure the window is displayed
                     windowElement.style.display = 'block';
                     windowManager.bringWindowToFront(windowElement);
-                }
-                windowManager.positionWindow(windowElement, item);
-            });
+                    windowManager.positionWindow(windowElement, item);
+                });
+            }
         });
         document.getElementById('desktop').appendChild(iconButton);
     });
 }
 
 setupIcons();
+
+const mailButton = document.getElementById('mail-button');
+mailButton.addEventListener('click', () => {
+    const windowElementId = `${mailConfig.id}-window-0`;
+    let mailWindow = document.getElementById(windowElementId);
+    if (mailWindow && mailWindow.style.display !== 'none') {
+        mailWindow.style.display = 'none';
+    } else {
+        if (!mailWindow) {
+            windowManager.renderWindow(mailConfig, mailConfig.content[0], 0);
+            mailWindow = document.getElementById(windowElementId);
+        }
+        mailWindow.style.display = 'block';
+        windowManager.bringWindowToFront(mailWindow);
+        windowManager.positionWindow(mailWindow, mailConfig.content[0]);
+    }
+});
 
 // Clock Display in Taskbar
 function updateTime() {
