@@ -156,7 +156,7 @@
 @media (max-width: 767px) {
     .window {
         width: 50vw;
-        max-height: 30vh;
+        max-height: 20vh;
     }
     .window-titlebar {
         padding: 8px;

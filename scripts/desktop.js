@@ -25,12 +25,13 @@ const windowsConfig = [
         label: 'Posters',
         icon: 'imgs/desktop/desktop_icon.svg',
         content: [
-            { 
-                type: 'gallery', 
-                title: 'Posters Gallery', // Title for gallery window
-                images: ['imgs/poster1.jpg', 'imgs/poster2.jpg', 'imgs/poster3.jpg'], 
-                position: { desktop: { x: '15%', y: '10%' }, mobile: { x: '5%', y: '5%' } }
+            {
+                type: 'gallery',
+                title: 'Posters',
+                images: Array.from({ length: 44 }, (_, i) => `imgs/posters/poster${String(i + 1).padStart(2, '0')}.webp`),
+                style: { width: '50vw', height: '50vh' }
             }
+            
         ]
     },
     {
@@ -138,24 +139,6 @@ const windowsConfig = [
 
 
 
-
-// Mail Button Configuration (in Taskbar)
-const mailConfig = {
-    id: 'mail',
-    label: 'Mail',
-    icon: 'imgs/desktop/mail_icon.svg',
-    content: [
-        {
-            type: 'form',
-            fields: [
-                { label: 'Name', inputType: 'text', required: true },
-                { label: 'Email', inputType: 'email', required: true },
-                { label: 'Message', inputType: 'textarea', required: true }
-            ]
-        }
-    ]
-};
-
 // Function to render each window based on its configuration
 function positionWindow(windowElement, config, index) {
     const isMobile = window.innerWidth <= 767;
@@ -223,7 +206,7 @@ function renderWindow(config) {
             contentDiv.appendChild(text);
         } else if (item.type === 'gallery') {
             const isSmallScreen = window.innerWidth < 787;
-            contentDiv.style.height = isSmallScreen ? 'calc(100% - 40px)': 'calc(80vh - 40px)';
+            contentDiv.style.height = isSmallScreen ? 'calc(100% - 40px)': 'calc(70vh - 40px)';
             
             const galleryWrapper = document.createElement('div');
             galleryWrapper.classList.add('gallery-wrapper');
