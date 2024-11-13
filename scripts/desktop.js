@@ -583,6 +583,25 @@ mailButton.addEventListener('click', () => {
     }
 });
 
+const aboutButton = document.getElementById('about-me-button');
+const startMenu = document.getElementById('start-menu');
+
+aboutButton.addEventListener('click', (e) => {
+    // Toggle start menu visibility
+    if (startMenu.classList.contains('open')) {
+        startMenu.classList.remove('open');
+    } else {
+        // Position the start menu above the "ABOUT" button
+        const buttonRect = aboutButton.getBoundingClientRect();
+        const startMenuWidth = startMenu.offsetWidth;
+
+        startMenu.style.left = `${buttonRect.left}px`;
+        startMenu.classList.add('open');
+    }
+});
+
+
+
 // Clock Display in Taskbar
 function updateTime() {
     const now = new Date();

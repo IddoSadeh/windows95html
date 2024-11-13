@@ -1,8 +1,8 @@
 .start-menu {
-    position: fixed; /* Changed from absolute to fixed */
-    bottom: 50px; /* Align with taskbar height */
+    position: fixed; 
+    bottom: 50px;
     left: 0;
-    z-index: 999; /* Just below windows */
+    z-index: 999; 
     width: 300px;
     background-color: #C0C0C0;
     border: 2px solid #000;
