@@ -1,21 +1,20 @@
-// Configuration for each desktop icon's behavior
 const windowsConfig = [
     {
         id: 'tetrisography',
         label: 'Tetrisography',
         icon: 'imgs/desktop/desktop_icon.svg',
         content: [
-            { 
-                type: 'iframe', 
-                title: 'Tetrisography Interactive', // Title for iframe window
-                url: 'https://example.com', 
-                mobileFallback: true, 
+            {
+                type: 'iframe',
+                title: 'Tetrisography Interactive',
+                url: 'https://example.com',
+                mobileFallback: true,
                 position: { desktop: { x: '5%', y: '5%' }, mobile: { x: '2%', y: '2%' } }
             },
-            { 
-                type: 'text', 
-                title: 'Tetrisography Description', // Title for description window
-                content: 'This is a description of the Tetrisography project.', 
+            {
+                type: 'text',
+                title: 'Tetrisography Description',
+                content: 'This is a description of the Tetrisography project.',
                 position: { desktop: { x: '20%', y: '20%' }, mobile: { x: '2%', y: '30%' } }
             }
         ]
@@ -38,10 +37,10 @@ const windowsConfig = [
         label: 'Fonts',
         icon: 'imgs/desktop/desktop_icon.svg',
         content: [
-            { 
-                type: 'text', 
-                title: 'Fonts', 
-                content: 'Coming Soon', 
+            {
+                type: 'text',
+                title: 'Fonts',
+                content: 'Coming Soon',
                 style: { width: '50vw', height: '50vh' }
             }
         ]
@@ -51,64 +50,66 @@ const windowsConfig = [
         label: 'Cannalog',
         icon: 'imgs/desktop/desktop_icon.svg',
         content: [
-            { 
-                type: 'gallery', 
-                title: 'Cannalog Gallery', 
+            {
+                type: 'gallery',
+                title: 'Cannalog Gallery',
                 images: [
-                    'imgs/cannalog/cannalog01.webp', 
-                    'imgs/cannalog/cannalog02.webp', 
-                    'imgs/cannalog/cannalog03.webp', 
-                    'imgs/cannalog/cannalog04.webp', 
+                    'imgs/cannalog/cannalog01.webp',
+                    'imgs/cannalog/cannalog02.webp',
+                    'imgs/cannalog/cannalog03.webp',
+                    'imgs/cannalog/cannalog04.webp',
                     'imgs/cannalog/cannalog05.webp'
-                ], 
-                position: { 
-                    desktop: { x: '5%', y: '5%' }, 
-                    mobile: { x: '5%', y: '5%' } 
+                ],
+                position: {
+                    desktop: { x: '5%', y: '5%' },
+                    mobile: { x: '5%', y: '5%' }
                 }
             },
-            { 
-                type: 'image', 
+            {
+                type: 'image',
                 title: 'Cannalog Image 1',
-                src: 'imgs/cannalog/cannalog06.webp', 
-                position: { 
-                    desktop: { x: '5%', y: '50%' }, 
-                    mobile: { x: '10%', y: '30%' } 
+                src: 'imgs/cannalog/cannalog06.webp',
+                position: {
+                    desktop: { x: '5%', y: '50%' },
+                    mobile: { x: '10%', y: '30%' }
                 }
             },
-            { 
-                type: 'text', 
-                title: 'Cannalog Description', 
-                content: 'Design and development of an app for managing medical cannabis consumption, tailored specifically for users dealing with sleep disorders. The primary goal of the app is to help users accurately track their inventory and daily consumption, receive timely reminders for doses and inventory refills, analyze their consumption patterns, and monitor sleep patterns to maximize treatment efficacy and improve sleep quality. The project involved identifying user needs, researching existing solutions, designing the initial user interface and data models, conducting user testing, and refining the app accordingly.', 
-                position: { 
-                    desktop: { x: '55%', y: '5%' }, 
-                    mobile: { x: '5%', y: '60%' } 
+            {
+                type: 'text',
+                title: 'Cannalog Description',
+                content: 'Design and development of an app for managing medical cannabis consumption, tailored specifically for users dealing with sleep disorders. The primary goal of the app is to help users accurately track their inventory and daily consumption, receive timely reminders for doses and inventory refills, analyze their consumption patterns, and monitor sleep patterns to maximize treatment efficacy and improve sleep quality. The project involved identifying user needs, researching existing solutions, designing the initial user interface and data models, conducting user testing, and refining the app accordingly.',
+                position: {
+                    desktop: { x: '55%', y: '5%' },
+                    mobile: { x: '5%', y: '60%' }
                 }
             },
-            { 
-                type: 'text', 
+            {
+                type: 'text',
                 title: 'User Story',
-                content: 'When managing my medical cannabis treatment for sleep issues, I want an app that helps me accurately track my supply and daily usage, receive timely reminders for doses and refills, analyze my consumption patterns, and monitor my sleep patterns so that I never run out of cannabis, stay within my prescribed limits, and optimize my treatment effectiveness to improve my sleep quality.', 
-                position: { 
-                    desktop: { x: '55%', y: '35%' }, 
-                    mobile: { x: '5%', y: '75%' } 
-                }
+                content: 'When managing my medical cannabis treatment for sleep issues, I want an app that helps me accurately track my supply and daily usage, receive timely reminders for doses and refills, analyze my consumption patterns, and monitor my sleep patterns so that I never run out of cannabis, stay within my prescribed limits, and optimize my treatment effectiveness to improve my sleep quality.',
+                position: {
+                    desktop: { x: '55%', y: '35%' },
+                    mobile: { x: '5%', y: '75%' }
+                },
+                style: { contentHeight: '15vh',contentWidth: '20vw' }
             },
-            { 
-                type: 'image', 
-                title: 'Cannalog Image 2', 
-                src: 'imgs/cannalog/cannalog07.webp', 
-                position: { 
-                    desktop: { x: '55%', y: '65%' }, 
-                    mobile: { x: '10%', y: '90%' } 
-                }
+            {
+                type: 'image',
+                title: 'Cannalog Image 2',
+                src: 'imgs/cannalog/cannalog07.webp',
+                position: {
+                    desktop: { x: '55%', y: '65%' },
+                    mobile: { x: '10%', y: '90%' }
+                },
+                style: { contentHeight: '15vh', contentWidth: '5vw' }
             },
-            { 
-                type: 'image', 
-                title: 'Cannalog Image 3', 
-                src: 'imgs/cannalog/cannalog08.webp', 
-                position: { 
-                    desktop: { x: '55%', y: '80%' }, 
-                    mobile: { x: '5%', y: '105%' } 
+            {
+                type: 'image',
+                title: 'Cannalog Image 3',
+                src: 'imgs/cannalog/cannalog08.webp',
+                position: {
+                    desktop: { x: '55%', y: '80%' },
+                    mobile: { x: '5%', y: '105%' }
                 }
             }
         ]
@@ -118,19 +119,29 @@ const windowsConfig = [
         label: 'Sting',
         icon: 'imgs/desktop/desktop_icon.svg',
         content: [
-            { 
-                type: 'gallery', 
-                title: 'Sting', 
-                images: ['imgs/sting/sting1.webp', 'imgs/sting/sting2.webp', 'imgs/sting/sting3.webp', 'imgs/sting/sting4.webp',
-                    'imgs/sting/sting5.webp', 'imgs/sting/sting6.webp', 'imgs/sting/sting7.webp', 'imgs/sting/sting8.webp',
-                    'imgs/sting/sting9.webp', 'imgs/sting/sting10.webp', 'imgs/sting/sting11.webp', 'imgs/sting/sting12.webp'
-                ], 
+            {
+                type: 'gallery',
+                title: 'Sting',
+                images: [
+                    'imgs/sting/sting1.webp',
+                    'imgs/sting/sting2.webp',
+                    'imgs/sting/sting3.webp',
+                    'imgs/sting/sting4.webp',
+                    'imgs/sting/sting5.webp',
+                    'imgs/sting/sting6.webp',
+                    'imgs/sting/sting7.webp',
+                    'imgs/sting/sting8.webp',
+                    'imgs/sting/sting9.webp',
+                    'imgs/sting/sting10.webp',
+                    'imgs/sting/sting11.webp',
+                    'imgs/sting/sting12.webp'
+                ],
                 position: { desktop: { x: '15%', y: '5%' }, mobile: { x: '5%', y: '5%' } }
             },
-            { 
-                type: 'text', 
-                title: 'Sting', 
-                content: 'Recently, we completed the branding for a new cocktail bar in Tel Aviv called "Sting," which blends the vibrant jazz and funk of 1970s New Orleans with the laid-back, bourgeois energy of Tel Aviv. The bar serves as the perfect start to an evening for a young, lighthearted, and sophisticated crowd. It offers a relaxed atmosphere where guests can enjoy excellent cocktails alongside pleasant music, creating an ideal backdrop for any gathering. Every design element was crafted to build a brand that conveys warmth, groove, and authenticity, ensuring an unforgettable experience for every visitor. The jazz and funk music, which are central to the venue, inspired the creation of the curly logotype and emblem. The project included developing a complete visual identity—encompassing the name, logo, color palette, fonts, menus, and accessories', 
+            {
+                type: 'text',
+                title: 'Sting',
+                content: 'Recently, we completed the branding for a new cocktail bar in Tel Aviv called "Sting," which blends the vibrant jazz and funk of 1970s New Orleans with the laid-back, bourgeois energy of Tel Aviv. The bar serves as the perfect start to an evening for a young, lighthearted, and sophisticated crowd. It offers a relaxed atmosphere where guests can enjoy excellent cocktails alongside pleasant music, creating an ideal backdrop for any gathering. Every design element was crafted to build a brand that conveys warmth, groove, and authenticity, ensuring an unforgettable experience for every visitor. The jazz and funk music, which are central to the venue, inspired the creation of the curly logotype and emblem. The project included developing a complete visual identity—encompassing the name, logo, color palette, fonts, menus, and accessories',
                 position: { desktop: { x: '57%', y: '5%' }, mobile: { x: '10%', y: '20%' } }
             },
             {
@@ -177,7 +188,6 @@ const mailConfig = {
 };
 
 
-// Class to manage windows
 class WindowManager {
     constructor() {
         this.highestZIndex = 1000;
@@ -190,9 +200,11 @@ class WindowManager {
 
     positionWindow(windowElement, item) {
         const isMobile = window.innerWidth <= 767;
-        const position = item.position ? 
-                         (isMobile ? item.position.mobile : item.position.desktop) : 
-                         null;
+        const position = item.position
+            ? isMobile
+                ? item.position.mobile
+                : item.position.desktop
+            : null;
 
         if (!position) {
             this.centerWindow(windowElement);
@@ -222,7 +234,9 @@ class WindowManager {
     }
 
     makeDraggable(element, handle) {
-        let isDragging = false, initialX = 0, initialY = 0;
+        let isDragging = false,
+            initialX = 0,
+            initialY = 0;
 
         const onMouseMove = (e) => {
             if (isDragging) {
@@ -267,7 +281,6 @@ class WindowManager {
         const windowElementId = `${config.id}-window-${index}`;
         let windowElement = document.getElementById(windowElementId);
         if (windowElement) {
-            // Window already exists, do not create again
             return;
         }
 
@@ -286,12 +299,18 @@ class WindowManager {
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('window-content');
 
-        // Render content based on type
+        if (item.style && item.style.contentHeight) {
+            contentDiv.style.height = item.style.contentHeight;
+            contentDiv.style.width = item.style.contentWidth;
+            contentDiv.style.overflow = 'auto'; 
+        }
+
         switch (item.type) {
             case 'text':
                 this.renderTextContent(item, contentDiv, config);
                 break;
             case 'gallery':
+            case 'image':
                 this.renderGalleryContent(item, contentDiv);
                 break;
             case 'palette':
@@ -303,9 +322,6 @@ class WindowManager {
             case 'iframe':
                 this.renderIframeContent(item, contentDiv);
                 break;
-            case 'image':
-                this.renderImageContent(item, contentDiv, windowElement);
-                break;
             case 'form':
                 this.renderFormContent(item, contentDiv);
                 break;
@@ -316,7 +332,6 @@ class WindowManager {
         windowElement.appendChild(contentDiv);
         document.body.appendChild(windowElement);
 
-        // Updated event listener to close all windows of the project
         titleBar.querySelector('.window-button').addEventListener('click', () => {
             this.closeProjectWindows(config);
         });
@@ -324,7 +339,6 @@ class WindowManager {
         this.makeDraggable(windowElement, titleBar);
     }
 
-    // New method to close all windows of a project
     closeProjectWindows(config) {
         config.content.forEach((_, idx) => {
             const windowToClose = document.getElementById(`${config.id}-window-${idx}`);
@@ -339,109 +353,114 @@ class WindowManager {
         text.textContent = item.content;
 
         if (config.id === 'fonts') {
-            text.style.fontSize = '2rem';
-            text.style.textAlign = 'center';
-            text.style.margin = '20% 0';
-            text.style.fontFamily = 'inherit';
+            text.classList.add('fonts-text');
         }
 
         contentDiv.appendChild(text);
     }
 
     renderGalleryContent(item, contentDiv) {
-        const isSmallScreen = window.innerWidth < 787;
-        contentDiv.style.height = isSmallScreen ? 'calc(100% - 40px)' : 'calc(70vh - 40px)';
+        contentDiv.classList.add('gallery-content');
 
         const galleryWrapper = document.createElement('div');
         galleryWrapper.classList.add('gallery-wrapper');
 
         const gallery = document.createElement('div');
         gallery.classList.add('scrollable-gallery');
-        item.images.forEach(imgSrc => {
+
+        const images = item.type === 'image' ? [item.src] : item.images;
+
+        images.forEach((imgSrc) => {
             const img = document.createElement('img');
             img.src = imgSrc;
             img.loading = 'lazy';
+
+            if (item.type === 'image') {
+                img.style.maxHeight = '100%';
+            }
+
             gallery.appendChild(img);
         });
 
         galleryWrapper.appendChild(gallery);
         contentDiv.appendChild(galleryWrapper);
 
-        const leftArrow = document.createElement('button');
-        leftArrow.classList.add('arrow', 'arrow-left');
-        leftArrow.innerHTML = '◀';
-        galleryWrapper.appendChild(leftArrow);
+        if (item.type === 'gallery') {
+            const leftArrow = document.createElement('button');
+            leftArrow.classList.add('arrow', 'arrow-left');
+            leftArrow.innerHTML = '◀';
+            galleryWrapper.appendChild(leftArrow);
 
-        const rightArrow = document.createElement('button');
-        rightArrow.classList.add('arrow', 'arrow-right');
-        rightArrow.innerHTML = '▶';
-        galleryWrapper.appendChild(rightArrow);
+            const rightArrow = document.createElement('button');
+            rightArrow.classList.add('arrow', 'arrow-right');
+            rightArrow.innerHTML = '▶';
+            galleryWrapper.appendChild(rightArrow);
 
-        const navigateGallery = (direction) => {
-            const imageWidth = gallery.clientWidth;
-            const currentScroll = gallery.scrollLeft;
-            const maxScroll = gallery.scrollWidth - imageWidth;
+            const navigateGallery = (direction) => {
+                const imageWidth = gallery.clientWidth;
+                const currentScroll = gallery.scrollLeft;
+                const maxScroll = gallery.scrollWidth - imageWidth;
 
-            let newScroll;
-            if (direction === 'right') {
-                newScroll = currentScroll >= maxScroll - 10 ? 0 : currentScroll + imageWidth;
-            } else {
-                newScroll = currentScroll <= 10 ? maxScroll : currentScroll - imageWidth;
-            }
+                let newScroll;
+                if (direction === 'right') {
+                    newScroll = currentScroll >= maxScroll - 10 ? 0 : currentScroll + imageWidth;
+                } else {
+                    newScroll = currentScroll <= 10 ? maxScroll : currentScroll - imageWidth;
+                }
 
-            leftArrow.disabled = true;
-            rightArrow.disabled = true;
+                leftArrow.disabled = true;
+                rightArrow.disabled = true;
 
-            gallery.scrollTo({ left: newScroll, behavior: 'smooth' });
+                gallery.scrollTo({ left: newScroll, behavior: 'smooth' });
 
-            setTimeout(() => {
-                leftArrow.disabled = false;
-                rightArrow.disabled = false;
-            }, 400);
-        };
+                setTimeout(() => {
+                    leftArrow.disabled = false;
+                    rightArrow.disabled = false;
+                }, 400);
+            };
 
-        leftArrow.addEventListener('click', () => navigateGallery('left'));
-        rightArrow.addEventListener('click', () => navigateGallery('right'));
+            leftArrow.addEventListener('click', () => navigateGallery('left'));
+            rightArrow.addEventListener('click', () => navigateGallery('right'));
 
-        let startX;
-        gallery.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
+            let startX;
+            gallery.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+            });
 
-        gallery.addEventListener('touchmove', (e) => {
-            if (!startX) return;
-            const diff = startX - e.touches[0].clientX;
-            if (Math.abs(diff) > 50) {
-                navigateGallery(diff > 0 ? 'right' : 'left');
+            gallery.addEventListener('touchmove', (e) => {
+                if (!startX) return;
+                const diff = startX - e.touches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    navigateGallery(diff > 0 ? 'right' : 'left');
+                    startX = null;
+                }
+            });
+
+            gallery.addEventListener('touchend', () => {
                 startX = null;
-            }
-        });
-
-        gallery.addEventListener('touchend', () => {
-            startX = null;
-        });
+            });
+        } else if (item.type === 'image') {
+            gallery.style.overflow = 'hidden';
+            galleryWrapper.style.overflow = 'hidden';
+            gallery.style.justifyContent = 'center';
+        }
     }
 
     renderPaletteContent(item, contentDiv) {
         const paletteContainer = document.createElement('div');
-        paletteContainer.style.display = 'grid';
-        paletteContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
-        paletteContainer.style.gridTemplateRows = 'auto auto';
-        paletteContainer.style.gap = '8px';
+        paletteContainer.classList.add('palette-container');
 
-        item.colors.slice(0, 2).forEach(colorItem => {
+        item.colors.slice(0, 2).forEach((colorItem) => {
             const colorWrapper = document.createElement('div');
-            colorWrapper.style.display = 'flex';
-            colorWrapper.style.alignItems = 'center';
+            colorWrapper.classList.add('color-wrapper');
 
             const colorBox = document.createElement('div');
+            colorBox.classList.add('color-box');
             colorBox.style.backgroundColor = colorItem.color;
-            colorBox.style.width = '40px';
-            colorBox.style.height = '40px';
 
             const colorLabel = document.createElement('span');
             colorLabel.textContent = colorItem.label;
-            colorLabel.style.marginLeft = '8px';
+            colorLabel.classList.add('color-label');
 
             colorWrapper.appendChild(colorBox);
             colorWrapper.appendChild(colorLabel);
@@ -450,19 +469,17 @@ class WindowManager {
 
         paletteContainer.appendChild(document.createElement('div'));
 
-        item.colors.slice(2).forEach(colorItem => {
+        item.colors.slice(2).forEach((colorItem) => {
             const colorWrapper = document.createElement('div');
-            colorWrapper.style.display = 'flex';
-            colorWrapper.style.alignItems = 'center';
+            colorWrapper.classList.add('color-wrapper');
 
             const colorBox = document.createElement('div');
+            colorBox.classList.add('color-box');
             colorBox.style.backgroundColor = colorItem.color;
-            colorBox.style.width = '40px';
-            colorBox.style.height = '40px';
 
             const colorLabel = document.createElement('span');
             colorLabel.textContent = colorItem.label;
-            colorLabel.style.marginLeft = '8px';
+            colorLabel.classList.add('color-label');
 
             colorWrapper.appendChild(colorBox);
             colorWrapper.appendChild(colorLabel);
@@ -472,46 +489,13 @@ class WindowManager {
         contentDiv.appendChild(paletteContainer);
     }
 
-    renderImageContent(item, contentDiv, windowElement) {
-        const img = document.createElement('img');
-        img.src = item.src;
-        img.style.display = 'block';
-        img.style.maxWidth = '80vw';
-        img.style.maxHeight = '80vh';
-        img.style.height = 'auto';
-        img.loading = 'lazy';
-        contentDiv.appendChild(img);
-
-        // Wait for the image to load and render
-        img.addEventListener('load', () => {
-            // Remove any padding or margin from contentDiv and windowElement
-            contentDiv.style.padding = '0';
-            contentDiv.style.margin = '0';
-            windowElement.style.padding = '0';
-            windowElement.style.margin = '0';
-
-            // Get the computed dimensions of the image
-            const imageWidth = img.clientWidth;
-            const imageHeight = img.clientHeight;
-
-            // Set window size based on the image size
-            windowElement.style.width = `${imageWidth}px`;
-            windowElement.style.height = `${imageHeight + 30}px`; // +30 for title bar height
-
-            // Reposition the window in case size changes affect its position
-            this.positionWindow(windowElement, item);
-        });
-    }
-
     renderLogosContent(item, contentDiv) {
         const logosContainer = document.createElement('div');
-        logosContainer.style.display = 'grid';
-        logosContainer.style.gridTemplateColumns = '1fr 1fr';
-        logosContainer.style.gridTemplateRows = 'auto auto';
+        logosContainer.classList.add('logos-container');
 
         const renderLogo = (logoItem, row, col, rowSpan = 1) => {
             const logoWrapper = document.createElement('div');
-            logoWrapper.style.textAlign = 'center';
+            logoWrapper.classList.add('logo-wrapper');
             logoWrapper.style.gridRow = `${row} / span ${rowSpan}`;
             logoWrapper.style.gridColumn = col;
             if (rowSpan > 1) logoWrapper.style.alignSelf = 'center';
@@ -521,8 +505,7 @@ class WindowManager {
 
             const logoImg = document.createElement('img');
             logoImg.src = logoItem.src;
-            logoImg.style.maxHeight = '10vh';
-            logoImg.style.objectFit = 'contain';
+            logoImg.classList.add('logo-img');
 
             logoWrapper.appendChild(logoLabel);
             logoWrapper.appendChild(logoImg);
@@ -539,8 +522,7 @@ class WindowManager {
     renderIframeContent(item, contentDiv) {
         const iframe = document.createElement('iframe');
         iframe.src = item.url;
-        iframe.width = '100%';
-        iframe.height = '400px';
+        iframe.classList.add('content-iframe');
         contentDiv.appendChild(iframe);
     }
 
@@ -548,7 +530,7 @@ class WindowManager {
         const form = document.createElement('form');
         form.classList.add('contact-form');
 
-        item.fields.forEach(field => {
+        item.fields.forEach((field) => {
             const label = document.createElement('label');
             label.textContent = field.label;
 
@@ -573,7 +555,6 @@ class WindowManager {
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Handle form submission here
             alert('Form submitted!');
         });
 
@@ -581,15 +562,15 @@ class WindowManager {
     }
 }
 
+
 const windowManager = new WindowManager();
 
 function setupIcons() {
-    windowsConfig.forEach(config => {
+    windowsConfig.forEach((config) => {
         const iconButton = document.createElement('button');
         iconButton.classList.add('desktop-icon');
         iconButton.innerHTML = `<img src="${config.icon}" alt="${config.label}"> ${config.label}`;
         iconButton.addEventListener('click', () => {
-            // Check if any of the windows for this icon are open
             let anyWindowOpen = false;
             config.content.forEach((item, index) => {
                 const windowElement = document.getElementById(`${config.id}-window-${index}`);
@@ -599,17 +580,14 @@ function setupIcons() {
             });
 
             if (anyWindowOpen) {
-                // Close all windows using the new method
                 windowManager.closeProjectWindows(config);
             } else {
-                // Open all windows
                 config.content.forEach((item, index) => {
                     let windowElement = document.getElementById(`${config.id}-window-${index}`);
                     if (!windowElement) {
                         windowManager.renderWindow(config, item, index);
                         windowElement = document.getElementById(`${config.id}-window-${index}`);
                     }
-                    // Ensure the window is displayed
                     windowElement.style.display = 'block';
                     windowManager.bringWindowToFront(windowElement);
                     windowManager.positionWindow(windowElement, item);
@@ -642,21 +620,16 @@ mailButton.addEventListener('click', () => {
 const aboutButton = document.getElementById('about-me-button');
 const startMenu = document.getElementById('start-menu');
 
-aboutButton.addEventListener('click', (e) => {
-    // Toggle start menu visibility
+aboutButton.addEventListener('click', () => {
     if (startMenu.classList.contains('open')) {
         startMenu.classList.remove('open');
     } else {
-        // Position the start menu above the "ABOUT" button
         const buttonRect = aboutButton.getBoundingClientRect();
-        const startMenuWidth = startMenu.offsetWidth;
-
         startMenu.style.left = `${buttonRect.left}px`;
         startMenu.classList.add('open');
     }
 });
 
-// Clock Display in Taskbar
 function updateTime() {
     const now = new Date();
     const hours = now.getHours() % 12 || 12;
