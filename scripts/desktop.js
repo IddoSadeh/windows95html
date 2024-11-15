@@ -31,7 +31,6 @@ const windowsConfig = [
                 images: Array.from({ length: 44 }, (_, i) => `imgs/posters/poster${String(i + 1).padStart(2, '0')}.webp`),
                 style: { width: '50vw', height: '50vh' }
             }
-            
         ]
     },
     {
@@ -156,7 +155,6 @@ const windowsConfig = [
                 ],
                 position: { desktop: { x: '57%', y: '65%' }, mobile: { x: '20%', y: '70%' } }
             }
-
         ]
     }
 ];
@@ -279,10 +277,6 @@ class WindowManager {
 
         windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
 
-        const isLargeScreen = window.innerWidth > 1440; 
-        windowElement.style.width = '40vw';
-        windowElement.style.maxWidth = isLargeScreen ? '80vw' : '500px';
-
         const titleText = item.title || `${config.label} - Window ${index + 1}`;
         const titleBar = document.createElement('header');
         titleBar.classList.add('window-titlebar');
@@ -310,7 +304,7 @@ class WindowManager {
                 this.renderIframeContent(item, contentDiv);
                 break;
             case 'image':
-                this.renderImageContent(item, contentDiv);
+                this.renderImageContent(item, contentDiv, windowElement);
                 break;
             case 'form':
                 this.renderFormContent(item, contentDiv);
@@ -322,11 +316,22 @@ class WindowManager {
         windowElement.appendChild(contentDiv);
         document.body.appendChild(windowElement);
 
+        // Updated event listener to close all windows of the project
         titleBar.querySelector('.window-button').addEventListener('click', () => {
-            windowElement.style.display = 'none';
+            this.closeProjectWindows(config);
         });
 
         this.makeDraggable(windowElement, titleBar);
+    }
+
+    // New method to close all windows of a project
+    closeProjectWindows(config) {
+        config.content.forEach((_, idx) => {
+            const windowToClose = document.getElementById(`${config.id}-window-${idx}`);
+            if (windowToClose) {
+                windowToClose.style.display = 'none';
+            }
+        });
     }
 
     renderTextContent(item, contentDiv, config) {
@@ -471,11 +476,12 @@ class WindowManager {
         const img = document.createElement('img');
         img.src = item.src;
         img.style.display = 'block';
-        img.style.maxWidth = '100%';
+        img.style.maxWidth = '80vw';
+        img.style.maxHeight = '80vh';
         img.style.height = 'auto';
         img.loading = 'lazy';
         contentDiv.appendChild(img);
-    
+
         // Wait for the image to load and render
         img.addEventListener('load', () => {
             // Remove any padding or margin from contentDiv and windowElement
@@ -483,21 +489,20 @@ class WindowManager {
             contentDiv.style.margin = '0';
             windowElement.style.padding = '0';
             windowElement.style.margin = '0';
-    
+
             // Get the computed dimensions of the image
-            const computedStyle = window.getComputedStyle(img);
             const imageWidth = img.clientWidth;
             const imageHeight = img.clientHeight;
-    
+
             // Set window size based on the image size
             windowElement.style.width = `${imageWidth}px`;
             windowElement.style.height = `${imageHeight + 30}px`; // +30 for title bar height
-    
+
             // Reposition the window in case size changes affect its position
             this.positionWindow(windowElement, item);
         });
     }
-    
+
     renderLogosContent(item, contentDiv) {
         const logosContainer = document.createElement('div');
         logosContainer.style.display = 'grid';
@@ -594,13 +599,8 @@ function setupIcons() {
             });
 
             if (anyWindowOpen) {
-                // Close all windows
-                config.content.forEach((item, index) => {
-                    const windowElement = document.getElementById(`${config.id}-window-${index}`);
-                    if (windowElement) {
-                        windowElement.style.display = 'none';
-                    }
-                });
+                // Close all windows using the new method
+                windowManager.closeProjectWindows(config);
             } else {
                 // Open all windows
                 config.content.forEach((item, index) => {
@@ -655,8 +655,6 @@ aboutButton.addEventListener('click', (e) => {
         startMenu.classList.add('open');
     }
 });
-
-
 
 // Clock Display in Taskbar
 function updateTime() {
