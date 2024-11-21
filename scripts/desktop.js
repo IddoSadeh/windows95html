@@ -28,7 +28,7 @@ const windowsConfig = [
                 type: 'gallery',
                 title: 'Posters',
                 images: Array.from({ length: 44 }, (_, i) => `imgs/posters/poster${String(i + 1).padStart(2, '0')}.webp`),
-                style: { width: '50vw', height: '50vh' }
+                style: { width: '30vw', height: '60vh' }
             }
         ]
     },
@@ -287,6 +287,16 @@ class WindowManager {
         windowElement = document.createElement('section');
         windowElement.id = windowElementId;
         windowElement.classList.add('window');
+
+        if (item.style) {
+            if (item.style.width) {
+                windowElement.style.width = item.style.width;
+            }
+            if (item.style.height) {
+                windowElement.style.height = item.style.height;
+            }
+        }
+    
 
         windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
 
