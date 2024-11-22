@@ -60,7 +60,7 @@ const windowsConfig = [
                     'imgs/cannalog/cannalog05.webp'
                 ],
                 position: {
-                    desktop: { x: '5%', y: '5%' },
+                    desktop: { x: '20%', y: '5%' },
                     mobile: { x: '5%', y: '5%' }
                 }
             },
@@ -69,9 +69,10 @@ const windowsConfig = [
                 title: 'Cannalog Image 1',
                 src: 'imgs/cannalog/cannalog06.webp',
                 position: {
-                    desktop: { x: '5%', y: '50%' },
+                    desktop: { x: '30%', y: '65%' },
                     mobile: { x: '10%', y: '30%' }
-                }
+                },
+                style: { contentHeight: '25vh', width: '20vw'  }
             },
             {
                 type: 'text',
@@ -87,29 +88,30 @@ const windowsConfig = [
                 title: 'User Story',
                 content: 'When managing my medical cannabis treatment for sleep issues, I want an app that helps me accurately track my supply and daily usage, receive timely reminders for doses and refills, analyze my consumption patterns, and monitor my sleep patterns so that I never run out of cannabis, stay within my prescribed limits, and optimize my treatment effectiveness to improve my sleep quality.',
                 position: {
-                    desktop: { x: '55%', y: '35%' },
+                    desktop: { x: '55%', y: '30%' },
                     mobile: { x: '5%', y: '75%' }
                 },
-                style: { contentHeight: '15vh',contentWidth: '20vw' }
+                style: { contentHeight: '15vh',width: '20vw' }
             },
             {
                 type: 'image',
                 title: 'Cannalog Image 2',
                 src: 'imgs/cannalog/cannalog07.webp',
                 position: {
-                    desktop: { x: '55%', y: '65%' },
+                    desktop: { x: '77%', y: '30%' },
                     mobile: { x: '10%', y: '90%' }
                 },
-                style: { contentHeight: '15vh', contentWidth: '5vw' }
+                style: { contentHeight: '15vh', width: '8vw'  }
             },
             {
                 type: 'image',
                 title: 'Cannalog Image 3',
                 src: 'imgs/cannalog/cannalog08.webp',
                 position: {
-                    desktop: { x: '55%', y: '80%' },
+                    desktop: { x: '55%', y: '55%' },
                     mobile: { x: '5%', y: '105%' }
-                }
+                },
+                style: { contentHeight: '35vh'  }
             }
         ]
     },
@@ -287,6 +289,7 @@ class WindowManager {
         windowElement.id = windowElementId;
         windowElement.classList.add('window');
 
+ 
         windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
 
         const titleText = item.title || `${config.label} - Window ${index + 1}`;
@@ -297,13 +300,23 @@ class WindowManager {
 
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('window-content');
-
-        if (item.style && item.style.contentHeight) {
-            contentDiv.style.height = item.style.contentHeight;
-            contentDiv.style.width = item.style.contentWidth;
-            contentDiv.style.overflow = 'auto'; 
+ 
+        if (item.style) {
+            if (item.style.contentHeight) {
+                contentDiv.style.height = item.style.contentHeight;
+                contentDiv.style.overflow = 'auto';
+            }
+            if (item.style.contentWidth) {
+                contentDiv.style.width = item.style.contentWidth;
+            }
+            if (item.style.width) {
+                windowElement.style.width = item.style.width;
+            }
+            if (item.style.height) {
+                windowElement.style.height = item.style.height;
+            }
         }
-
+        
         switch (item.type) {
             case 'text':
                 this.renderTextContent(item, contentDiv, config);
