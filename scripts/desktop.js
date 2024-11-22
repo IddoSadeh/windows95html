@@ -27,8 +27,7 @@ const windowsConfig = [
             {
                 type: 'gallery',
                 title: 'Posters',
-                images: Array.from({ length: 44 }, (_, i) => `imgs/posters/poster${String(i + 1).padStart(2, '0')}.webp`),
-                style: { width: '30vw', height: '60vh' }
+                images: Array.from({ length: 44 }, (_, i) => `imgs/posters/poster${String(i + 1).padStart(2, '0')}.webp`)
             }
         ]
     },
@@ -41,7 +40,7 @@ const windowsConfig = [
                 type: 'text',
                 title: 'Fonts',
                 content: 'Coming Soon',
-                style: { width: '50vw', height: '50vh' }
+
             }
         ]
     },
@@ -152,7 +151,7 @@ const windowsConfig = [
                     { src: 'imgs/sting/sting14.webp', label: 'Mark' },
                     { src: 'imgs/sting/sting15.webp', label: 'Logotype' }
                 ],
-                position: { desktop: { x: '57%', y: '35%' }, mobile: { x: '15%', y: '50%' } }
+                position: { desktop: { x: '57%', y: '32%' }, mobile: { x: '15%', y: '50%' } }
             },
             {
                 type: 'palette',
@@ -287,16 +286,6 @@ class WindowManager {
         windowElement = document.createElement('section');
         windowElement.id = windowElementId;
         windowElement.classList.add('window');
-
-        if (item.style) {
-            if (item.style.width) {
-                windowElement.style.width = item.style.width;
-            }
-            if (item.style.height) {
-                windowElement.style.height = item.style.height;
-            }
-        }
-    
 
         windowElement.addEventListener('mousedown', () => this.bringWindowToFront(windowElement));
 
