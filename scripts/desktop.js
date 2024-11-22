@@ -176,11 +176,7 @@ const windowsConfig = [
         content: [
             {
                 type: 'contactLinks',
-                title: 'Contact Me',
-                position: {
-                    desktop: { x: '30%', y: '20%' },
-                    mobile: { x: '5%', y: '10%' }
-                }
+                title: 'Contact Me'
             }
         ]
     }
@@ -584,6 +580,8 @@ const windowManager = new WindowManager();
 
 function setupIcons() {
     windowsConfig.forEach((config) => {
+        if(config.id != 'contact'){
+    
         const iconButton = document.createElement('button');
         iconButton.classList.add('desktop-icon');
         iconButton.innerHTML = `<img src="${config.icon}" alt="${config.label}"> ${config.label}`;
@@ -612,6 +610,8 @@ function setupIcons() {
             }
         });
         document.getElementById('desktop').appendChild(iconButton);
+              
+    }
     });
 }
 
