@@ -168,6 +168,21 @@ const windowsConfig = [
                 position: { desktop: { x: '57%', y: '65%' }, mobile: { x: '20%', y: '70%' } }
             }
         ]
+    },
+    {
+        id: 'contact',
+        label: 'Contact',
+        icon: 'imgs/desktop/mail_icon.svg',
+        content: [
+            {
+                type: 'contactLinks',
+                title: 'Contact Me',
+                position: {
+                    desktop: { x: '30%', y: '20%' },
+                    mobile: { x: '5%', y: '10%' }
+                }
+            }
+        ]
     }
 ];
 
@@ -317,6 +332,9 @@ class WindowManager {
                 break;
             case 'iframe':
                 this.renderIframeContent(item, contentDiv);
+                break;
+            case 'contactLinks':
+                this.renderContactLinksContent(item, contentDiv);
                 break;
             default:
                 console.warn(`Unknown content type: ${item.type}`);
@@ -522,7 +540,43 @@ class WindowManager {
         contentDiv.appendChild(iframe);
     }
 
+    renderContactLinksContent(item, contentDiv) {
+        const email = 'your.email@example.com'; 
 
+        const introText = document.createElement('p');
+        introText.textContent = 'Please choose your preferred email service to contact me:';
+        contentDiv.appendChild(introText);
+
+        const linkList = document.createElement('ul');
+        linkList.classList.add('contact-links');
+
+        // Gmail link
+        const gmailLinkItem = document.createElement('li');
+        const gmailLink = document.createElement('a');
+        gmailLink.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=Inquiry`;
+        gmailLink.target = '_blank';
+        gmailLink.rel = 'noopener noreferrer';
+        gmailLink.textContent = 'Email me via Gmail';
+        gmailLinkItem.appendChild(gmailLink);
+        linkList.appendChild(gmailLinkItem);
+
+        // Outlook.com link
+        const outlookLinkItem = document.createElement('li');
+        const outlookLink = document.createElement('a');
+        outlookLink.href = `https://outlook.live.com/owa/?path=/mail/action/compose&to=${encodeURIComponent(email)}&subject=Inquiry`;
+        outlookLink.target = '_blank';
+        outlookLink.rel = 'noopener noreferrer';
+        outlookLink.textContent = 'Email me via Outlook.com';
+        outlookLinkItem.appendChild(outlookLink);
+        linkList.appendChild(outlookLinkItem);
+
+        // Display email address
+        const emailItem = document.createElement('li');
+        emailItem.textContent = `Or email me at: ${email}`;
+        linkList.appendChild(emailItem);
+
+        contentDiv.appendChild(linkList);
+    }
 }
 
 
@@ -565,8 +619,19 @@ setupIcons();
 
 const mailButton = document.getElementById('mail-button');
 mailButton.addEventListener('click', () => {
-    const email = 'your.email@example.com';
-    window.location.href = `mailto:${email}?subject=Inquiry`;
+    const config = windowsConfig.find(c => c.id === 'contact');
+    if (config) {
+        const item = config.content[0];
+        const index = 0;
+        let windowElement = document.getElementById(`${config.id}-window-${index}`);
+        if (!windowElement) {
+            windowManager.renderWindow(config, item, index);
+            windowElement = document.getElementById(`${config.id}-window-${index}`);
+        }
+        windowElement.style.display = 'block';
+        windowManager.bringWindowToFront(windowElement);
+        windowManager.positionWindow(windowElement, item);
+    }
 });
 
 const aboutButton = document.getElementById('about-me-button');
