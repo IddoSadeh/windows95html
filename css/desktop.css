@@ -4,16 +4,20 @@
          url('../fonts/w-95-sans-serif.woff') format('woff');
 }
 
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Windows 95', sans-serif;
+    cursor: url('../imgs/cursors/Normal.png'), auto;
 }
 
 html, body {
     height: 100%;
     font-family: inherit;
+
 }
 
 .desktop {
