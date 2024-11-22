@@ -171,22 +171,6 @@ const windowsConfig = [
     }
 ];
 
-const mailConfig = {
-    id: 'mail',
-    label: 'Mail',
-    content: [
-        {
-            type: 'form',
-            title: 'Contact Me',
-            fields: [
-                { label: 'Name', inputType: 'text', required: true },
-                { label: 'Email', inputType: 'email', required: true },
-                { label: 'Message', inputType: 'textarea', required: true }
-            ],
-            position: { desktop: { x: '30%', y: '20%' }, mobile: { x: '5%', y: '10%' } }
-        }
-    ]
-};
 
 
 class WindowManager {
@@ -333,9 +317,6 @@ class WindowManager {
                 break;
             case 'iframe':
                 this.renderIframeContent(item, contentDiv);
-                break;
-            case 'form':
-                this.renderFormContent(item, contentDiv);
                 break;
             default:
                 console.warn(`Unknown content type: ${item.type}`);
@@ -541,40 +522,7 @@ class WindowManager {
         contentDiv.appendChild(iframe);
     }
 
-    renderFormContent(item, contentDiv) {
-        const form = document.createElement('form');
-        form.classList.add('contact-form');
 
-        item.fields.forEach((field) => {
-            const label = document.createElement('label');
-            label.textContent = field.label;
-
-            let input;
-            if (field.inputType === 'textarea') {
-                input = document.createElement('textarea');
-            } else {
-                input = document.createElement('input');
-                input.type = field.inputType;
-            }
-            input.required = field.required;
-            input.name = field.label.toLowerCase();
-
-            form.appendChild(label);
-            form.appendChild(input);
-        });
-
-        const submitButton = document.createElement('button');
-        submitButton.textContent = 'Send';
-        submitButton.type = 'submit';
-        form.appendChild(submitButton);
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Form submitted!');
-        });
-
-        contentDiv.appendChild(form);
-    }
 }
 
 
@@ -617,19 +565,8 @@ setupIcons();
 
 const mailButton = document.getElementById('mail-button');
 mailButton.addEventListener('click', () => {
-    const windowElementId = `${mailConfig.id}-window-0`;
-    let mailWindow = document.getElementById(windowElementId);
-    if (mailWindow && mailWindow.style.display !== 'none') {
-        mailWindow.style.display = 'none';
-    } else {
-        if (!mailWindow) {
-            windowManager.renderWindow(mailConfig, mailConfig.content[0], 0);
-            mailWindow = document.getElementById(windowElementId);
-        }
-        mailWindow.style.display = 'block';
-        windowManager.bringWindowToFront(mailWindow);
-        windowManager.positionWindow(mailWindow, mailConfig.content[0]);
-    }
+    const email = 'your.email@example.com';
+    window.location.href = `mailto:${email}?subject=Inquiry`;
 });
 
 const aboutButton = document.getElementById('about-me-button');
