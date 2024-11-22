@@ -70,7 +70,7 @@ const windowsConfig = [
                 src: 'imgs/cannalog/cannalog06.webp',
                 position: {
                     desktop: { x: '30%', y: '65%' },
-                    mobile: { x: '10%', y: '30%' }
+                    mobile: { x: '10%', y: '25%' }
                 },
                 style: { contentHeight: '25vh', width: '20vw'  }
             },
@@ -80,7 +80,7 @@ const windowsConfig = [
                 content: 'Design and development of an app for managing medical cannabis consumption, tailored specifically for users dealing with sleep disorders. The primary goal of the app is to help users accurately track their inventory and daily consumption, receive timely reminders for doses and inventory refills, analyze their consumption patterns, and monitor sleep patterns to maximize treatment efficacy and improve sleep quality. The project involved identifying user needs, researching existing solutions, designing the initial user interface and data models, conducting user testing, and refining the app accordingly.',
                 position: {
                     desktop: { x: '55%', y: '5%' },
-                    mobile: { x: '5%', y: '60%' }
+                    mobile: { x: '15%', y: '40%' }
                 }
             },
             {
@@ -88,8 +88,8 @@ const windowsConfig = [
                 title: 'User Story',
                 content: 'When managing my medical cannabis treatment for sleep issues, I want an app that helps me accurately track my supply and daily usage, receive timely reminders for doses and refills, analyze my consumption patterns, and monitor my sleep patterns so that I never run out of cannabis, stay within my prescribed limits, and optimize my treatment effectiveness to improve my sleep quality.',
                 position: {
-                    desktop: { x: '55%', y: '30%' },
-                    mobile: { x: '5%', y: '75%' }
+                    desktop: { x: '55%', y: '33%' },
+                    mobile: { x: '20%', y: '50%' }
                 },
                 style: { contentHeight: '15vh',width: '20vw' }
             },
@@ -98,8 +98,8 @@ const windowsConfig = [
                 title: 'Cannalog Image 2',
                 src: 'imgs/cannalog/cannalog07.webp',
                 position: {
-                    desktop: { x: '77%', y: '30%' },
-                    mobile: { x: '10%', y: '90%' }
+                    desktop: { x: '77%', y: '33%' },
+                    mobile: { x: '25%', y: '60%' }
                 },
                 style: { contentHeight: '15vh', width: '8vw'  }
             },
@@ -109,9 +109,9 @@ const windowsConfig = [
                 src: 'imgs/cannalog/cannalog08.webp',
                 position: {
                     desktop: { x: '55%', y: '55%' },
-                    mobile: { x: '5%', y: '105%' }
+                    mobile: { x: '30%', y: '70%' }
                 },
-                style: { contentHeight: '35vh'  }
+                style: { contentHeight: '25vh'  }
             }
         ]
     },
@@ -388,7 +388,10 @@ class WindowManager {
             img.loading = 'lazy';
 
             if (item.type === 'image') {
+                img.classList.add('single-image');
                 img.style.maxHeight = '100%';
+            } else {
+                img.classList.add('gallery-img');
             }
 
             gallery.appendChild(img);
